@@ -1,16 +1,17 @@
-﻿namespace ReClosure;
-
-public partial struct Closure
+﻿namespace ReClosure
 {
-    public void Invoke()
+    public partial struct Closure
     {
-        if (_delegate is Action act)
+        public void Invoke()
         {
-            act();
-        }
-        else
-        {
-            throw new Exception("Invalid closure");
+            if (_delegate is Action act)
+            {
+                act();
+            }
+            else
+            {
+                throw new Exception("Invalid closure");
+            }
         }
     }
 }

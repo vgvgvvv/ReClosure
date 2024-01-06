@@ -1,6 +1,7 @@
-﻿namespace ReClosure;
-
-public partial struct Closure
+﻿namespace ReClosure
 {
+	public partial struct Closure
+	{
     
+	}
 }

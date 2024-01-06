@@ -1,16 +1,17 @@
-﻿namespace ReClosure;
-
-public partial struct Closure
+﻿namespace ReClosure
 {
-    public void Invoke<T>()
+    public partial struct Closure
     {
-        if (_delegate is Action<T> act)
+        public void Invoke<T>()
         {
-            act(SValue.Reader<T>.Invoke(ref _0));
-        }
-        else
-        {
-            throw new Exception("Invalid closure");
-        }
-    }   
+            if (_delegate is Action<T> act)
+            {
+                act(SValue.Reader<T>.Invoke(ref _0));
+            }
+            else
+            {
+                throw new Exception("Invalid closure");
+            }
+        }   
+    }
 }

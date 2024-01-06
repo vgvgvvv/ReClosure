@@ -1,16 +1,17 @@
-﻿namespace ReClosure;
-
-public partial struct Closure
+﻿namespace ReClosure
 {
-    public SValue SRInvoke<T, TResult>()
+    public partial struct Closure
     {
-        if(_delegate is Func<T, TResult> func)
+        public SValue SRInvoke<T, TResult>()
         {
-            return SValue.Writer<TResult>.Invoke(func.Invoke(SValue.Reader<T>.Invoke(ref _0)));
-        }
-        else
-        {
-            throw new Exception("Invalid closure");
+            if(_delegate is Func<T, TResult> func)
+            {
+                return SValue.Writer<TResult>.Invoke(func.Invoke(SValue.Reader<T>.Invoke(ref _0)));
+            }
+            else
+            {
+                throw new Exception("Invalid closure");
+            }
         }
     }
 }
