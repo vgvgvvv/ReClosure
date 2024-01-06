@@ -52,4 +52,23 @@ public static partial class BindHelper
 		return ActionClosure<TInput0, TInput1, TInput2>.Create(action, ctx);
 	}
 
+	public static ActionClosure BindSelf<TSelf>(this TSelf self, Action<TSelf> action)
+	{
+		return ActionClosure.Create(action, self);
+	}
+	
+	public static ActionClosure<T0> BindSelf<TSelf, T0>(this TSelf self, Action<TSelf, T0> action)
+	{
+		return ActionClosure<T0>.Create(action, self);
+	}
+
+	public static ActionClosure<T0, T1> BindSelf<TSelf, T0, T1>(this TSelf self, Action<TSelf, T0, T1> action)
+	{
+		return ActionClosure<T0, T1>.Create(action, self);
+	}
+	
+	public static ActionClosure<T0, T1, T2> BindSelf<TSelf, T0, T1, T2>(this TSelf self, Action<TSelf, T0, T1, T2> action)
+	{
+		return ActionClosure<T0, T1, T2>.Create(action, self);
+	}
 }

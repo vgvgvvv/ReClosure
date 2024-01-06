@@ -6,6 +6,14 @@ public class TestBetterEvent
 	private BetterEvent<int> Event = new BetterEvent<int>();
 	private ClosureEvent<int> ClosureEvent = new ClosureEvent<int>();
 
+	class TestCall
+	{
+		public int OnCall(int a)
+		{
+			return a;
+		}
+	}
+
 	[Test]
 	public void TestBetterEventBoardcast()
 	{
@@ -15,6 +23,16 @@ public class TestBetterEvent
 			{
 				Console.WriteLine($"I got a {arg1 + arg2}");
 			}, b);
+
+		TestCall call = new TestCall();
+		ClosureEvent += ActionClosure<int>.Create(
+			(self, a) => self.OnCall(a), 
+			call);
+
+		ClosureEvent += call.BindSelf((TestCall self, int a) =>
+		{
+			self.OnCall(a);
+		});
 		
 		ClosureEvent.Invoke(100);
 	}

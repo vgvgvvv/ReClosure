@@ -77,4 +77,24 @@ public static partial class BindHelper
 		return FuncClosure<TInput0, TInput1, TInput2, TInput3>.Create<TResult>(func);
 	}
 	
+	public static FuncClosure BindSelf<TSelf, TResult>(this TSelf self, Func<TSelf, TResult> action)
+	{
+		return FuncClosure.Create(action, self);
+	}
+	
+	public static FuncClosure<T0> BindSelf<TSelf, T0, TResult>(this TSelf self, Func<TSelf, T0, TResult> action)
+	{
+		return FuncClosure<T0>.Create(action, self);
+	}
+
+	public static FuncClosure<T0, T1> BindSelf<TSelf, T0, T1, TResult>(this TSelf self, Func<TSelf, T0, T1, TResult> action)
+	{
+		return FuncClosure<T0, T1>.Create(action, self);
+	}
+	
+	public static FuncClosure<T0, T1, T2> BindSelf<TSelf, T0, T1, T2, TResult>(this TSelf self, Func<TSelf, T0, T1, T2, TResult> action)
+	{
+		return FuncClosure<T0, T1, T2>.Create(action, self);
+	}
+	
 }
