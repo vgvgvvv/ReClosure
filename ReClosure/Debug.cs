@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using System.Text;
-
-namespace ReClosure
+﻿namespace ReClosure
 {
     public interface IDebug
     {

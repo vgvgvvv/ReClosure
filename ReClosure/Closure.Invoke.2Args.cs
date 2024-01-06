@@ -37,6 +37,18 @@
                 throw new Exception("Invalid closure");
             }
         }
+        
+        public void Invoke<T0, T1>(T0 arg0, T1 arg1)
+        {
+            if(_delegate is Action<T0, T1> act)
+            {
+                act(arg0, arg1);
+            }
+            else
+            {
+                throw new Exception("Invalid closure");
+            }
+        }
 
     }
 }

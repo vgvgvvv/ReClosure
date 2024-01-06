@@ -13,5 +13,17 @@
                 throw new Exception("Invalid closure");
             }
         }
+        
+        public TResult RInvoke<T, TResult>(T arg0)
+        {
+            if(_delegate is Func<T, TResult> func)
+            {
+                return func.Invoke(arg0);
+            }
+            else
+            {
+                throw new Exception("Invalid closure");
+            }
+        }
     }
 }

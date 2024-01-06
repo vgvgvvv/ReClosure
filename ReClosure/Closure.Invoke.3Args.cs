@@ -123,6 +123,22 @@
         }
     
         #endregion // Bind2
+        
+        public void Invoke<T0, T1, T2>(T0 arg0, T1 arg1, T2 arg2)
+        {
+            if (_delegate is Action<T0, T1, T2> act)
+            {
+                act.Invoke(
+                    arg0,
+                    arg1, 
+                    arg2
+                );
+            }
+            else
+            {
+                throw new Exception("Invalid closure");
+            }
+        }
 
         #endregion
     }

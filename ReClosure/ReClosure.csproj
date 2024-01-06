@@ -2,8 +2,9 @@
 
     <PropertyGroup>
         <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <TargetFrameworks>net6.0;net7.0;netstandard2.0;net471</TargetFrameworks>
+        <Nullable>disable</Nullable>
+        <LangVersion>default</LangVersion>
+        <TargetFramework>netstandard2.0</TargetFramework>
     </PropertyGroup>
 
 </Project>
