@@ -1,94 +1,80 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Globalization;
 using System.Runtime.InteropServices;
 #if RE_CLOSURE_FOR_UNITY
 using UnityEngine;
 #endif
 
-namespace ReClosure {
+namespace ReClosure;
 
-    public struct SValue {
-
-        static SValue() {
-            _nil.type = Type.Nil;
+public struct SValue
+{
+    static SValue()
+    {
+        _nil.ValueType = Type.Nil;
 #if RE_CLOSURE_FOR_UNITY
             _nil._val._vec4 = Vector4.zero;
 #endif
-            _nil.obj = null;
-        }
+        _nil._obj = null;
+    }
 
-        static SValue _nil;
+    private static readonly SValue _nil;
 
-        public static SValue nil {
-            get {
-                return _nil;
-            }
-        }
+    public static SValue nil => _nil;
 
-        public enum Type {
-            Nil,
-            Boolean,
-            Int8,
-            UInt8,
-            Char,
-            Int16,
-            UInt16,
-            Int32,
-            UInt32,
-            Int64,
-            UInt64,
-            Single,
-            Double,
-            String,
-            Object,
-            Vector2,
-            Vector3,
-            Vector4,
-            Vector4i,
-            Quaternion,
-            Color4f,
-            Color32,
-        }
+    public enum Type
+    {
+        Nil,
+        Boolean,
+        Int8,
+        UInt8,
+        Char,
+        Int16,
+        UInt16,
+        Int32,
+        UInt32,
+        Int64,
+        UInt64,
+        Single,
+        Double,
+        String,
+        Object,
+#if RE_CLOSURE_FOR_UNITY
+        Vector2,
+        Vector3,
+        Vector4,
+        Vector4i,
+        Quaternion,
+        Color4f,
+        Color32
+#endif
+    }
 
-        [StructLayout( LayoutKind.Explicit )]
-        internal struct __Value {
-            [FieldOffset( 0 )]
-            internal Boolean _bool;
+    [StructLayout(LayoutKind.Explicit)]
+    internal struct InternalValue
+    {
+        [FieldOffset(0)] internal Boolean _bool;
 
-            [FieldOffset( 0 )]
-            internal SByte _int8;
+        [FieldOffset(0)] internal SByte _int8;
 
-            [FieldOffset( 0 )]
-            internal Byte _uint8;
+        [FieldOffset(0)] internal Byte _uint8;
 
-            [FieldOffset( 0 )]
-            internal Char _char;
+        [FieldOffset(0)] internal Char _char;
 
-            [FieldOffset( 0 )]
-            internal Int16 _int16;
+        [FieldOffset(0)] internal Int16 _int16;
 
-            [FieldOffset( 0 )]
-            internal UInt16 _uint16;
+        [FieldOffset(0)] internal UInt16 _uint16;
 
-            [FieldOffset( 0 )]
-            internal Int32 _int32;
+        [FieldOffset(0)] internal Int32 _int32;
 
-            [FieldOffset( 0 )]
-            internal UInt32 _uint32;
+        [FieldOffset(0)] internal UInt32 _uint32;
 
-            [FieldOffset( 0 )]
-            internal Int64 _int64;
+        [FieldOffset(0)] internal Int64 _int64;
 
-            [FieldOffset( 0 )]
-            internal UInt64 _uint64;
+        [FieldOffset(0)] internal UInt64 _uint64;
 
-            [FieldOffset( 0 )]
-            internal Single _single;
+        [FieldOffset(0)] internal Single _single;
 
-            [FieldOffset( 0 )]
-            internal Double _double;
+        [FieldOffset(0)] internal Double _double;
 #if RE_CLOSURE_FOR_UNITY
             [FieldOffset( 0 )]
             internal Vector2 _vec2;
@@ -108,32 +94,31 @@ namespace ReClosure {
             [FieldOffset( 0 )]
             internal Color32 _color32;
 #endif
+    }
 
-        };
-        Type type;
-        __Value _val;
-        System.Object obj;
+    private InternalValue _val;
+    private object _obj;
 
-        public Type valueType {
-            get {
-                return type;
+    public Type ValueType { get; private set; }
+
+    public override string ToString()
+    {
+        switch (ValueType)
+        {
+            case Type.String:
+            {
+                var s = _obj as string;
+                return s != null ? s : "null";
             }
-        }
-
-        public override String ToString() {
-            switch ( type ) {
-            case Type.String: {
-                    var s = obj as String;
-                    return s != null ? s : "null";
-                }
-            case Type.Object: {
-                    var s = obj as object;
-                    return s != null ? s.ToString() : "null";
-                }
+            case Type.Object:
+            {
+                var s = _obj;
+                return s?.ToString() ?? "null";
+            }
             case Type.Double:
-                return _val._double.ToString();
+                return _val._double.ToString(CultureInfo.CurrentCulture);
             case Type.Single:
-                return _val._single.ToString();
+                return _val._single.ToString(CultureInfo.CurrentCulture);
             case Type.UInt64:
                 return _val._uint64.ToString();
             case Type.Int64:
@@ -172,12 +157,15 @@ namespace ReClosure {
 #endif
             case Type.Nil:
                 return "nil";
-            }
-            return String.Empty;
         }
 
-        public bool ToBoolean() {
-            switch ( type ) {
+        return string.Empty;
+    }
+
+    public bool ToBoolean()
+    {
+        switch (ValueType)
+        {
             case Type.Boolean:
                 return _val._bool;
             case Type.Int8:
@@ -200,39 +188,42 @@ namespace ReClosure {
             case Type.Nil:
                 return false;
             case Type.Object:
-                return true.Equals( obj );
+                return true.Equals(_obj);
             case Type.String:
-                return String.IsNullOrEmpty( obj as String );
-            }
-            return false;
+                return string.IsNullOrEmpty(_obj as string);
         }
 
-        public SByte ToSByte() {
-            switch ( type ) {
+        return false;
+    }
+
+    public sbyte ToSByte()
+    {
+        switch (ValueType)
+        {
             case Type.Int8:
                 return _val._int8;
             case Type.UInt8:
-                return ( SByte )_val._uint8;
+                return (sbyte)_val._uint8;
             case Type.Boolean:
-                return ( SByte )( _val._bool ? 1 : 0 );
+                return (sbyte)(_val._bool ? 1 : 0);
             case Type.Char:
-                return ( SByte )_val._char;
+                return (sbyte)_val._char;
             case Type.Int16:
-                return ( SByte )_val._int16;
+                return (sbyte)_val._int16;
             case Type.UInt16:
-                return ( SByte )_val._uint16;
+                return (sbyte)_val._uint16;
             case Type.Int32:
-                return ( SByte )_val._int32;
+                return (sbyte)_val._int32;
             case Type.UInt32:
-                return ( SByte )_val._uint32;
+                return (sbyte)_val._uint32;
             case Type.Int64:
-                return ( SByte )_val._int64;
+                return (sbyte)_val._int64;
             case Type.UInt64:
-                return ( SByte )_val._uint64;
+                return (sbyte)_val._uint64;
             case Type.Single:
-                return ( SByte )_val._single;
+                return (sbyte)_val._single;
             case Type.Double:
-                return ( SByte )_val._double;
+                return (sbyte)_val._double;
 #if RE_CLOSURE_FOR_UNITY
             case Type.Vector2:
                 return ( SByte )_val._vec2.x;
@@ -247,36 +238,39 @@ namespace ReClosure {
             case Type.Color4f:
                 return ( SByte )( _val._color4f.r * 255.0f );
 #endif
-            }
-            return 0;
         }
 
-        public Byte ToByte() {
-            switch ( type ) {
+        return 0;
+    }
+
+    public byte ToByte()
+    {
+        switch (ValueType)
+        {
             case Type.UInt8:
                 return _val._uint8;
             case Type.Int8:
-                return ( Byte )_val._int8;
+                return (byte)_val._int8;
             case Type.Boolean:
-                return ( Byte )( _val._bool ? 1 : 0 );
+                return (byte)(_val._bool ? 1 : 0);
             case Type.Char:
-                return ( Byte )_val._char;
+                return (byte)_val._char;
             case Type.Int16:
-                return ( Byte )_val._int16;
+                return (byte)_val._int16;
             case Type.UInt16:
-                return ( Byte )_val._uint16;
+                return (byte)_val._uint16;
             case Type.Int32:
-                return ( Byte )_val._int32;
+                return (byte)_val._int32;
             case Type.UInt32:
-                return ( Byte )_val._uint32;
+                return (byte)_val._uint32;
             case Type.Int64:
-                return ( Byte )_val._int64;
+                return (byte)_val._int64;
             case Type.UInt64:
-                return ( Byte )_val._uint64;
+                return (byte)_val._uint64;
             case Type.Single:
-                return ( Byte )_val._single;
+                return (byte)_val._single;
             case Type.Double:
-                return ( Byte )_val._double;
+                return (byte)_val._double;
 #if RE_CLOSURE_FOR_UNITY
             case Type.Vector2:
                 return ( Byte )_val._vec2.x;
@@ -291,36 +285,39 @@ namespace ReClosure {
             case Type.Color4f:
                 return ( Byte )( _val._color4f.r * 255.0f );
 #endif
-            }
-            return 0;
         }
 
-        public Char ToChar() {
-            switch ( type ) {
+        return 0;
+    }
+
+    public char ToChar()
+    {
+        switch (ValueType)
+        {
             case Type.Char:
                 return _val._char;
             case Type.UInt8:
-                return ( Char )_val._uint8;
+                return (char)_val._uint8;
             case Type.Int8:
-                return ( Char )_val._int8;
+                return (char)_val._int8;
             case Type.Boolean:
-                return ( Char )( _val._bool ? 1 : 0 );
+                return (char)(_val._bool ? 1 : 0);
             case Type.Int16:
-                return ( Char )_val._int16;
+                return (char)_val._int16;
             case Type.UInt16:
-                return ( Char )_val._uint16;
+                return (char)_val._uint16;
             case Type.Int32:
-                return ( Char )_val._int32;
+                return (char)_val._int32;
             case Type.UInt32:
-                return ( Char )_val._uint32;
+                return (char)_val._uint32;
             case Type.Int64:
-                return ( Char )_val._int64;
+                return (char)_val._int64;
             case Type.UInt64:
-                return ( Char )_val._uint64;
+                return (char)_val._uint64;
             case Type.Single:
-                return ( Char )_val._single;
+                return (char)_val._single;
             case Type.Double:
-                return ( Char )_val._double;
+                return (char)_val._double;
 #if RE_CLOSURE_FOR_UNITY
             case Type.Vector2:
                 return ( Char )_val._vec2.x;
@@ -335,36 +332,39 @@ namespace ReClosure {
             case Type.Color4f:
                 return ( Char )( _val._color4f.r * 255.0f );
 #endif
-            }
-            return '\0';
         }
 
-        public Int16 ToInt16() {
-            switch ( type ) {
+        return '\0';
+    }
+
+    public short ToInt16()
+    {
+        switch (ValueType)
+        {
             case Type.Int16:
                 return _val._int16;
             case Type.Char:
-                return ( Int16 )_val._char;
+                return (short)_val._char;
             case Type.UInt8:
-                return ( Int16 )_val._uint8;
+                return _val._uint8;
             case Type.Int8:
-                return ( Int16 )_val._int8;
+                return _val._int8;
             case Type.Boolean:
-                return ( Int16 )( _val._bool ? 1 : 0 );
+                return (short)(_val._bool ? 1 : 0);
             case Type.UInt16:
-                return ( Int16 )_val._uint16;
+                return (short)_val._uint16;
             case Type.Int32:
-                return ( Int16 )_val._int32;
+                return (short)_val._int32;
             case Type.UInt32:
-                return ( Int16 )_val._uint32;
+                return (short)_val._uint32;
             case Type.Int64:
-                return ( Int16 )_val._int64;
+                return (short)_val._int64;
             case Type.UInt64:
-                return ( Int16 )_val._uint64;
+                return (short)_val._uint64;
             case Type.Single:
-                return ( Int16 )_val._single;
+                return (short)_val._single;
             case Type.Double:
-                return ( Int16 )_val._double;
+                return (short)_val._double;
 #if RE_CLOSURE_FOR_UNITY
             case Type.Vector2:
                 return ( Int16 )_val._vec2.x;
@@ -379,36 +379,39 @@ namespace ReClosure {
             case Type.Color4f:
                 return ( Int16 )( _val._color4f.r * 255.0f );
 #endif
-            }
-            return 0;
         }
 
-        public UInt16 ToUInt16() {
-            switch ( type ) {
+        return 0;
+    }
+
+    public ushort ToUInt16()
+    {
+        switch (ValueType)
+        {
             case Type.UInt16:
                 return _val._uint16;
             case Type.Int16:
-                return ( UInt16 )_val._int16;
+                return (ushort)_val._int16;
             case Type.Char:
-                return ( UInt16 )_val._char;
+                return _val._char;
             case Type.UInt8:
-                return ( UInt16 )_val._uint8;
+                return _val._uint8;
             case Type.Int8:
-                return ( UInt16 )_val._int8;
+                return (ushort)_val._int8;
             case Type.Boolean:
-                return ( UInt16 )( _val._bool ? 1 : 0 );
+                return (ushort)(_val._bool ? 1 : 0);
             case Type.Int32:
-                return ( UInt16 )_val._int32;
+                return (ushort)_val._int32;
             case Type.UInt32:
-                return ( UInt16 )_val._uint32;
+                return (ushort)_val._uint32;
             case Type.Int64:
-                return ( UInt16 )_val._int64;
+                return (ushort)_val._int64;
             case Type.UInt64:
-                return ( UInt16 )_val._uint64;
+                return (ushort)_val._uint64;
             case Type.Single:
-                return ( UInt16 )_val._single;
+                return (ushort)_val._single;
             case Type.Double:
-                return ( UInt16 )_val._double;
+                return (ushort)_val._double;
 #if RE_CLOSURE_FOR_UNITY
             case Type.Vector2:
                 return ( UInt16 )_val._vec2.x;
@@ -423,36 +426,39 @@ namespace ReClosure {
             case Type.Color4f:
                 return ( UInt16 )( _val._color4f.r * 255.0f );
 #endif
-            }
-            return 0;
         }
 
-        public Int32 ToInt32() {
-            switch ( type ) {
+        return 0;
+    }
+
+    public int ToInt32()
+    {
+        switch (ValueType)
+        {
             case Type.Int32:
                 return _val._int32;
             case Type.UInt32:
-                return ( Int32 )_val._uint32;
+                return (int)_val._uint32;
             case Type.UInt16:
-                return ( Int32 )_val._uint16;
+                return _val._uint16;
             case Type.Int16:
-                return ( Int32 )_val._int16;
+                return _val._int16;
             case Type.Char:
-                return ( Int32 )_val._char;
+                return _val._char;
             case Type.UInt8:
-                return ( Int32 )_val._uint8;
+                return _val._uint8;
             case Type.Int8:
-                return ( Int32 )_val._int8;
+                return _val._int8;
             case Type.Boolean:
-                return ( Int32 )( _val._bool ? 1 : 0 );
+                return _val._bool ? 1 : 0;
             case Type.Int64:
-                return ( Int32 )_val._int64;
+                return (int)_val._int64;
             case Type.UInt64:
-                return ( Int32 )_val._uint64;
+                return (int)_val._uint64;
             case Type.Single:
-                return ( Int32 )_val._single;
+                return (int)_val._single;
             case Type.Double:
-                return ( Int32 )_val._double;
+                return (int)_val._double;
 #if RE_CLOSURE_FOR_UNITY
             case Type.Vector2:
                 return ( Int32 )_val._vec2.x;
@@ -467,36 +473,39 @@ namespace ReClosure {
             case Type.Color4f:
                 return ( Int32 )( _val._color4f.r * 255.0f );
 #endif
-            }
-            return 0;
         }
 
-        public UInt32 ToUInt32() {
-            switch ( type ) {
+        return 0;
+    }
+
+    public uint ToUInt32()
+    {
+        switch (ValueType)
+        {
             case Type.UInt32:
                 return _val._uint32;
             case Type.UInt16:
-                return ( UInt32 )_val._uint16;
+                return _val._uint16;
             case Type.Int16:
-                return ( UInt32 )_val._int16;
+                return (uint)_val._int16;
             case Type.Char:
-                return ( UInt32 )_val._char;
+                return _val._char;
             case Type.UInt8:
-                return ( UInt32 )_val._uint8;
+                return _val._uint8;
             case Type.Int8:
-                return ( UInt32 )_val._int8;
+                return (uint)_val._int8;
             case Type.Boolean:
-                return ( UInt32 )( _val._bool ? 1 : 0 );
+                return (uint)(_val._bool ? 1 : 0);
             case Type.Int32:
-                return ( UInt32 )_val._int32;
+                return (uint)_val._int32;
             case Type.Int64:
-                return ( UInt32 )_val._int64;
+                return (uint)_val._int64;
             case Type.UInt64:
-                return ( UInt32 )_val._uint64;
+                return (uint)_val._uint64;
             case Type.Single:
-                return ( UInt32 )_val._single;
+                return (uint)_val._single;
             case Type.Double:
-                return ( UInt32 )_val._double;
+                return (uint)_val._double;
 #if RE_CLOSURE_FOR_UNITY
             case Type.Vector2:
                 return ( UInt32 )_val._vec2.x;
@@ -511,36 +520,39 @@ namespace ReClosure {
             case Type.Color4f:
                 return ( UInt32 )( _val._color4f.r * 255.0f );
 #endif
-            }
-            return 0;
         }
 
-        public Int64 ToInt64() {
-            switch ( type ) {
+        return 0;
+    }
+
+    public long ToInt64()
+    {
+        switch (ValueType)
+        {
             case Type.Int64:
                 return _val._int64;
             case Type.Int32:
-                return ( Int64 )_val._int32;
+                return _val._int32;
             case Type.UInt32:
-                return ( Int64 )_val._uint32;
+                return _val._uint32;
             case Type.UInt16:
-                return ( Int64 )_val._uint16;
+                return _val._uint16;
             case Type.Int16:
-                return ( Int64 )_val._int16;
+                return _val._int16;
             case Type.Char:
-                return ( Int64 )_val._char;
+                return _val._char;
             case Type.UInt8:
-                return ( Int64 )_val._uint8;
+                return _val._uint8;
             case Type.Int8:
-                return ( Int64 )_val._int8;
+                return _val._int8;
             case Type.Boolean:
-                return ( Int64 )( _val._bool ? 1 : 0 );
+                return _val._bool ? 1 : 0;
             case Type.UInt64:
-                return ( Int64 )_val._uint64;
+                return (long)_val._uint64;
             case Type.Single:
-                return ( Int64 )_val._single;
+                return (long)_val._single;
             case Type.Double:
-                return ( Int64 )_val._double;
+                return (long)_val._double;
 #if RE_CLOSURE_FOR_UNITY
             case Type.Vector2:
                 return ( Int64 )_val._vec2.x;
@@ -555,36 +567,39 @@ namespace ReClosure {
             case Type.Color4f:
                 return ( Int64 )( _val._color4f.r * 255.0f );
 #endif
-            }
-            return 0;
         }
 
-        public UInt64 ToUInt64() {
-            switch ( type ) {
+        return 0;
+    }
+
+    public ulong ToUInt64()
+    {
+        switch (ValueType)
+        {
             case Type.UInt64:
                 return _val._uint64;
             case Type.Int64:
-                return ( UInt64 )_val._int64;
+                return (ulong)_val._int64;
             case Type.Int32:
-                return ( UInt64 )_val._int32;
+                return (ulong)_val._int32;
             case Type.UInt32:
-                return ( UInt64 )_val._uint32;
+                return _val._uint32;
             case Type.UInt16:
-                return ( UInt64 )_val._uint16;
+                return _val._uint16;
             case Type.Int16:
-                return ( UInt64 )_val._int16;
+                return (ulong)_val._int16;
             case Type.Char:
-                return ( UInt64 )_val._char;
+                return _val._char;
             case Type.UInt8:
-                return ( UInt64 )_val._uint8;
+                return _val._uint8;
             case Type.Int8:
-                return ( UInt64 )_val._int8;
+                return (ulong)_val._int8;
             case Type.Boolean:
-                return ( UInt64 )( _val._bool ? 1 : 0 );
+                return (ulong)(_val._bool ? 1 : 0);
             case Type.Single:
-                return ( UInt64 )_val._single;
+                return (ulong)_val._single;
             case Type.Double:
-                return ( UInt64 )_val._double;
+                return (ulong)_val._double;
 #if RE_CLOSURE_FOR_UNITY
             case Type.Vector2:
                 return ( UInt64 )_val._vec2.x;
@@ -599,36 +614,39 @@ namespace ReClosure {
             case Type.Color4f:
                 return ( UInt64 )( _val._color4f.r * 255.0f );
 #endif
-            }
-            return 0;
         }
 
-        public Single ToSingle() {
-            switch ( type ) {
+        return 0;
+    }
+
+    public float ToSingle()
+    {
+        switch (ValueType)
+        {
             case Type.Single:
                 return _val._single;
             case Type.UInt64:
-                return ( Single )_val._uint64;
+                return _val._uint64;
             case Type.Int64:
-                return ( Single )_val._int64;
+                return _val._int64;
             case Type.Int32:
-                return ( Single )_val._int32;
+                return _val._int32;
             case Type.UInt32:
-                return ( Single )_val._uint32;
+                return _val._uint32;
             case Type.UInt16:
-                return ( Single )_val._uint16;
+                return _val._uint16;
             case Type.Int16:
-                return ( Single )_val._int16;
+                return _val._int16;
             case Type.Char:
-                return ( Single )_val._char;
+                return _val._char;
             case Type.UInt8:
-                return ( Single )_val._uint8;
+                return _val._uint8;
             case Type.Int8:
-                return ( Single )_val._int8;
+                return _val._int8;
             case Type.Boolean:
-                return ( Single )( _val._bool ? 1 : 0 );
+                return _val._bool ? 1 : 0;
             case Type.Double:
-                return ( Single )_val._double;
+                return (float)_val._double;
 #if RE_CLOSURE_FOR_UNITY
             case Type.Vector2:
                 return _val._vec2.x;
@@ -643,36 +661,39 @@ namespace ReClosure {
             case Type.Color4f:
                 return _val._color4f.r;
 #endif
-            }
-            return 0;
         }
 
-        public Double ToDouble() {
-            switch ( type ) {
+        return 0;
+    }
+
+    public double ToDouble()
+    {
+        switch (ValueType)
+        {
             case Type.Double:
                 return _val._double;
             case Type.Single:
-                return ( Double )_val._single;
+                return _val._single;
             case Type.UInt64:
-                return ( Double )_val._uint64;
+                return _val._uint64;
             case Type.Int64:
-                return ( Double )_val._int64;
+                return _val._int64;
             case Type.Int32:
-                return ( Double )_val._int32;
+                return _val._int32;
             case Type.UInt32:
-                return ( Double )_val._uint32;
+                return _val._uint32;
             case Type.UInt16:
-                return ( Double )_val._uint16;
+                return _val._uint16;
             case Type.Int16:
-                return ( Double )_val._int16;
+                return _val._int16;
             case Type.Char:
-                return ( Double )_val._char;
+                return _val._char;
             case Type.UInt8:
-                return ( Double )_val._uint8;
+                return _val._uint8;
             case Type.Int8:
-                return ( Double )_val._int8;
+                return _val._int8;
             case Type.Boolean:
-                return ( Double )( _val._bool ? 1 : 0 );
+                return _val._bool ? 1 : 0;
 #if RE_CLOSURE_FOR_UNITY
             case Type.Vector2:
                 return ( Double )_val._vec2.x;
@@ -687,9 +708,10 @@ namespace ReClosure {
             case Type.Color4f:
                 return ( Double )_val._color4f.r;
 #endif
-            }
-            return 0;
         }
+
+        return 0;
+    }
 #if RE_CLOSURE_FOR_UNITY
         public Vector2 ToVector2() {
             switch ( type ) {
@@ -955,124 +977,155 @@ namespace ReClosure {
             return Color.black;
         }
 #endif
-        public System.Object ToObject() {
-            if ( type == Type.Object ) {
-                return obj;
-            }
-            return null;
-        }
+    public object? ToObject()
+    {
+        if (ValueType == Type.Object) return _obj;
+        return null;
+    }
 
-        public static SValue FromObject( System.Object val ) {
-            return new SValue {
-                type = Type.Object,
-                obj = val
-            };
-        }
+    public static SValue FromObject(object val)
+    {
+        return new SValue
+        {
+            ValueType = Type.Object,
+            _obj = val
+        };
+    }
 
-        public static SValue Ctor( Boolean val ) {
-            return new SValue {
-                type = Type.Boolean,
-                _val = new __Value { _bool = val }
-            };
-        }
+    public static SValue Ctor(bool val)
+    {
+        return new SValue
+        {
+            ValueType = Type.Boolean,
+            _val = new InternalValue { _bool = val }
+        };
+    }
 
-        public static SValue Ctor( Byte val ) {
-            return new SValue {
-                type = Type.UInt8,
-                _val = new __Value { _uint8 = val }
-            };
-        }
+    public static SValue Ctor(byte val)
+    {
+        return new SValue
+        {
+            ValueType = Type.UInt8,
+            _val = new InternalValue { _uint8 = val }
+        };
+    }
 
-        public static SValue Ctor( SByte val ) {
-            return new SValue {
-                type = Type.Int8,
-                _val = new __Value { _int8 = val }
-            };
-        }
+    public static SValue Ctor(sbyte val)
+    {
+        return new SValue
+        {
+            ValueType = Type.Int8,
+            _val = new InternalValue { _int8 = val }
+        };
+    }
 
-        public static SValue Ctor( Char val ) {
-            return new SValue {
-                type = Type.Char,
-                _val = new __Value { _char = val }
-            };
-        }
+    public static SValue Ctor(char val)
+    {
+        return new SValue
+        {
+            ValueType = Type.Char,
+            _val = new InternalValue { _char = val }
+        };
+    }
 
-        public static SValue Ctor( Int16 val ) {
-            return new SValue {
-                type = Type.Int16,
-                _val = new __Value { _int16 = val }
-            };
-        }
+    public static SValue Ctor(short val)
+    {
+        return new SValue
+        {
+            ValueType = Type.Int16,
+            _val = new InternalValue { _int16 = val }
+        };
+    }
 
-        public static SValue Ctor( UInt16 val ) {
-            return new SValue {
-                type = Type.UInt16,
-                _val = new __Value { _uint16 = val }
-            };
-        }
+    public static SValue Ctor(ushort val)
+    {
+        return new SValue
+        {
+            ValueType = Type.UInt16,
+            _val = new InternalValue { _uint16 = val }
+        };
+    }
 
-        public static SValue Ctor( Int32 val ) {
-            return new SValue {
-                type = Type.Int32,
-                _val = new __Value { _int32 = val }
-            };
-        }
+    public static SValue Ctor(int val)
+    {
+        return new SValue
+        {
+            ValueType = Type.Int32,
+            _val = new InternalValue { _int32 = val }
+        };
+    }
 
-        public static SValue Ctor( UInt32 val ) {
-            return new SValue {
-                type = Type.UInt32,
-                _val = new __Value { _uint32 = val }
-            };
-        }
+    public static SValue Ctor(uint val)
+    {
+        return new SValue
+        {
+            ValueType = Type.UInt32,
+            _val = new InternalValue { _uint32 = val }
+        };
+    }
 
-        public static SValue Ctor( Int64 val ) {
-            return new SValue {
-                type = Type.Int64,
-                _val = new __Value { _int64 = val }
-            };
-        }
+    public static SValue Ctor(long val)
+    {
+        return new SValue
+        {
+            ValueType = Type.Int64,
+            _val = new InternalValue { _int64 = val }
+        };
+    }
 
-        public static SValue Ctor( UInt64 val ) {
-            return new SValue {
-                type = Type.UInt64,
-                _val = new __Value { _uint64 = val }
-            };
-        }
+    public static SValue Ctor(ulong val)
+    {
+        return new SValue
+        {
+            ValueType = Type.UInt64,
+            _val = new InternalValue { _uint64 = val }
+        };
+    }
 
-        public static SValue Ctor( ref Int64 val ) {
-            return new SValue {
-                type = Type.Int64,
-                _val = new __Value { _int64 = val }
-            };
-        }
+    public static SValue Ctor(ref long val)
+    {
+        return new SValue
+        {
+            ValueType = Type.Int64,
+            _val = new InternalValue { _int64 = val }
+        };
+    }
 
-        public static SValue Ctor( ref UInt64 val ) {
-            return new SValue {
-                type = Type.UInt64,
-                _val = new __Value { _uint64 = val }
-            };
-        }
+    public static SValue Ctor(ref ulong val)
+    {
+        return new SValue
+        {
+            ValueType = Type.UInt64,
+            _val = new InternalValue { _uint64 = val }
+        };
+    }
 
-        public static SValue Ctor( Single val ) {
-            return new SValue {
-                type = Type.Single,
-                _val = new __Value { _single = val }
-            };
-        }
+    public static SValue Ctor(float val)
+    {
+        return new SValue
+        {
+            ValueType = Type.Single,
+            _val = new InternalValue { _single = val }
+        };
+    }
 
-        public static SValue Ctor( Double val ) {
-            return new SValue {
-                type = Type.Double,
-                _val = new __Value { _double = val }
-            };
-        }
+    public static SValue Ctor(double val)
+    {
+        return new SValue
+        {
+            ValueType = Type.Double,
+            _val = new InternalValue { _double = val }
+        };
+    }
 
-        public static SValue Ctor( ref Double val ) {
-            return new SValue {
-                type = Type.Double,
-                _val = new __Value { _double = val }
-            };
-        }
+    public static SValue Ctor(ref double val)
+    {
+        return new SValue
+        {
+            ValueType = Type.Double,
+            _val = new InternalValue { _double = val }
+        };
+    }
 #if RE_CLOSURE_FOR_UNITY
         public static SValue Ctor( Vector2 val ) {
             return new SValue {
@@ -1151,28 +1204,32 @@ namespace ReClosure {
             };
         }
 #endif
-        public static SValue Ctor( String val ) {
-            return new SValue {
-                type = Type.String,
-                obj = val
-            };
-        }
+    public static SValue Ctor(string val)
+    {
+        return new SValue
+        {
+            ValueType = Type.String,
+            _obj = val
+        };
+    }
 
-        internal static class ReaderInit {
-            static ReaderInit() {
-                Reader<Boolean>._invoke = ( ref SValue s ) => s.ToBoolean();
-                Reader<Char>._invoke = ( ref SValue s ) => s.ToChar();
-                Reader<Byte>._invoke = ( ref SValue s ) => s.ToByte();
-                Reader<SByte>._invoke = ( ref SValue s ) => s.ToSByte();
-                Reader<Int16>._invoke = ( ref SValue s ) => s.ToInt16();
-                Reader<UInt16>._invoke = ( ref SValue s ) => s.ToUInt16();
-                Reader<Int32>._invoke = ( ref SValue s ) => s.ToInt32();
-                Reader<UInt32>._invoke = ( ref SValue s ) => s.ToUInt32();
-                Reader<Int64>._invoke = ( ref SValue s ) => s.ToInt64();
-                Reader<UInt64>._invoke = ( ref SValue s ) => s.ToUInt64();
-                Reader<String>._invoke = ( ref SValue s ) => s.ToString();
-                Reader<Single>._invoke = ( ref SValue s ) => s.ToSingle();
-                Reader<Double>._invoke = ( ref SValue s ) => s.ToDouble();
+    internal static class ReaderInit
+    {
+        static ReaderInit()
+        {
+            Reader<bool>.InternalInvoke = (ref SValue s) => s.ToBoolean();
+            Reader<char>.InternalInvoke = (ref SValue s) => s.ToChar();
+            Reader<byte>.InternalInvoke = (ref SValue s) => s.ToByte();
+            Reader<sbyte>.InternalInvoke = (ref SValue s) => s.ToSByte();
+            Reader<short>.InternalInvoke = (ref SValue s) => s.ToInt16();
+            Reader<ushort>.InternalInvoke = (ref SValue s) => s.ToUInt16();
+            Reader<int>.InternalInvoke = (ref SValue s) => s.ToInt32();
+            Reader<uint>.InternalInvoke = (ref SValue s) => s.ToUInt32();
+            Reader<long>.InternalInvoke = (ref SValue s) => s.ToInt64();
+            Reader<ulong>.InternalInvoke = (ref SValue s) => s.ToUInt64();
+            Reader<string>.InternalInvoke = (ref SValue s) => s.ToString();
+            Reader<float>.InternalInvoke = (ref SValue s) => s.ToSingle();
+            Reader<double>.InternalInvoke = (ref SValue s) => s.ToDouble();
 #if RE_CLOSURE_FOR_UNITY
                 Reader<Vector2>._invoke = ( ref SValue s ) => s.ToVector2();
                 Reader<Vector3>._invoke = ( ref SValue s ) => s.ToVector3();
@@ -1182,27 +1239,31 @@ namespace ReClosure {
                 Reader<Color>._invoke = ( ref SValue s ) => s.ToColor();
                 Reader<Color32>._invoke = ( ref SValue s ) => s.ToColor32();
 #endif
-                Reader<System.Object>._invoke = ( ref SValue s ) => s.ToObject();
-            }
-            public static void DoInit() {
-            }
+            Reader<object>.InternalInvoke = (ref SValue s) => s.ToObject();
         }
 
-        internal static class WriterInit {
-            static WriterInit() {
-                Writer<Boolean>._invoke = v => SValue.Ctor( v );
-                Writer<Char>._invoke = v => SValue.Ctor( v );
-                Writer<Byte>._invoke = v => SValue.Ctor( v );
-                Writer<SByte>._invoke = v => SValue.Ctor( v );
-                Writer<Int16>._invoke = v => SValue.Ctor( v );
-                Writer<UInt16>._invoke = v => SValue.Ctor( v );
-                Writer<Int32>._invoke = v => SValue.Ctor( v );
-                Writer<UInt32>._invoke = v => SValue.Ctor( v );
-                Writer<Int64>._invoke = v => SValue.Ctor( ref v );
-                Writer<UInt64>._invoke = v => SValue.Ctor( ref v );
-                Writer<String>._invoke = v => SValue.Ctor( v );
-                Writer<Single>._invoke = v => SValue.Ctor( v );
-                Writer<Double>._invoke = v => SValue.Ctor( ref v );
+        public static void DoInit()
+        {
+        }
+    }
+
+    internal static class WriterInit
+    {
+        static WriterInit()
+        {
+            Writer<bool>.InternalInvoke = v => Ctor(v);
+            Writer<char>.InternalInvoke = v => Ctor(v);
+            Writer<byte>.InternalInvoke = v => Ctor(v);
+            Writer<sbyte>.InternalInvoke = v => Ctor(v);
+            Writer<short>.InternalInvoke = v => Ctor(v);
+            Writer<ushort>.InternalInvoke = v => Ctor(v);
+            Writer<int>.InternalInvoke = v => Ctor(v);
+            Writer<uint>.InternalInvoke = v => Ctor(v);
+            Writer<long>.InternalInvoke = v => Ctor(ref v);
+            Writer<ulong>.InternalInvoke = v => Ctor(ref v);
+            Writer<string>.InternalInvoke = v => Ctor(v);
+            Writer<float>.InternalInvoke = v => Ctor(v);
+            Writer<double>.InternalInvoke = v => Ctor(ref v);
 #if RE_CLOSURE_FOR_UNITY
                 Writer<Vector2>._invoke = v => SValue.Ctor( ref v );
                 Writer<Vector3>._invoke = v => SValue.Ctor( ref v );
@@ -1212,41 +1273,45 @@ namespace ReClosure {
                 Writer<Color>._invoke = v => SValue.Ctor( ref v );
                 Writer<Color32>._invoke = v => SValue.Ctor( v );
 #endif
-                Writer<System.Object>._invoke = v => SValue.FromObject( v );
-            }
-            public static void DoInit() {
-            }
+            Writer<object>.InternalInvoke = v => FromObject(v);
         }
 
-        public class Reader<T> {
-            internal static Func_ByRef<SValue, T> _invoke = null;
-            internal static Func_ByRef<SValue, T> _default = ( ref SValue val ) => ( T )val.ToObject();
-            public static Func_ByRef<SValue, T> invoke {
-                get {
-                    return _invoke ?? _default;
-                }
-            }
-            static Reader() {
-                ReaderInit.DoInit();
-            }
+        public static void DoInit()
+        {
+        }
+    }
+
+    public class Reader<T>
+    {
+        internal static FuncByRef<SValue, T> InternalInvoke;
+        internal static readonly FuncByRef<SValue, T> Default = (ref SValue val) => (T)val.ToObject();
+
+        static Reader()
+        {
+            ReaderInit.DoInit();
         }
 
-        public class Writer<T> {
-            internal delegate void TW( T v );
-            internal static Func<T, SValue> _invoke = null;
-            internal static Func<T, SValue> _default = v => {
-                UDebug.Assert( typeof( T ).IsValueType == false, "Please avoid value type boxing!" );
-                return SValue.FromObject( v );
-            };
-            public static Func<T, SValue> invoke {
-                get {
-                    return _invoke ?? _default;
-                }
-            }
-            static Writer() {
-                WriterInit.DoInit();
-            }
+        public static FuncByRef<SValue, T> Invoke => InternalInvoke ?? Default;
+    }
+
+    public class Writer<T>
+    {
+        internal static Func<T, SValue> InternalInvoke;
+
+        internal static readonly Func<T, SValue> Default = v =>
+        {
+            Debug.Assert(typeof(T).IsValueType == false, "Please avoid value type boxing!");
+            return FromObject(v);
+        };
+
+        static Writer()
+        {
+            WriterInit.DoInit();
         }
+
+        public static Func<T, SValue> Invoke => InternalInvoke ?? Default;
+
+        internal delegate void TW(T v);
     }
 }
 //EOF

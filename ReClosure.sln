@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReClosure", "ReClosure\ReClosure.csproj", "{6A1F9B18-990B-44C6-BF83-C876806639CC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReClosure.Test", "ReClosure.Test\ReClosure.Test.csproj", "{D1B3DEDA-4E43-4D13-A0E8-DBFA10FE053C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{6A1F9B18-990B-44C6-BF83-C876806639CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A1F9B18-990B-44C6-BF83-C876806639CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A1F9B18-990B-44C6-BF83-C876806639CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1B3DEDA-4E43-4D13-A0E8-DBFA10FE053C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1B3DEDA-4E43-4D13-A0E8-DBFA10FE053C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1B3DEDA-4E43-4D13-A0E8-DBFA10FE053C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1B3DEDA-4E43-4D13-A0E8-DBFA10FE053C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
