@@ -1,10 +1,16 @@
 ﻿namespace ReClosure
 {
-    public struct FuncClosure<TInput0>
+    public struct FuncClosure<TInput0> : IEquatable<FuncClosure<TInput0>>
     {
         private Closure _context;
         private Func<Closure, TInput0, SValue> _wrapper;
 
+        
+        public bool IsValid()
+        {
+            return _context.IsValid() && _wrapper != null;
+        }
+        
         public void Reset()
         {
             _wrapper = null;
@@ -196,6 +202,23 @@
             };
         }
 
+        public bool Equals(FuncClosure<TInput0> other)
+        {
+            return _context.Equals(other._context) && Equals(_wrapper, other._wrapper);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is FuncClosure<TInput0> other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (_context.GetHashCode() * 397) ^ (_wrapper != null ? _wrapper.GetHashCode() : 0);
+            }
+        }
     }
 }
 

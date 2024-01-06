@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace ReClosure
 {
-    public struct SValue
+    public struct SValue : IEquatable<SValue>
     {
         static SValue()
         {
@@ -94,6 +94,31 @@ namespace ReClosure
             [FieldOffset( 0 )]
             internal Color32 _color32;
 #endif
+
+            public override bool Equals(object obj)
+            {
+                return obj is InternalValue other && Equals(other);
+            }
+
+            public override int GetHashCode()
+            {
+                unchecked
+                {
+                    var hashCode = _bool.GetHashCode();
+                    hashCode = (hashCode * 397) ^ _int8.GetHashCode();
+                    hashCode = (hashCode * 397) ^ _uint8.GetHashCode();
+                    hashCode = (hashCode * 397) ^ _char.GetHashCode();
+                    hashCode = (hashCode * 397) ^ _int16.GetHashCode();
+                    hashCode = (hashCode * 397) ^ _uint16.GetHashCode();
+                    hashCode = (hashCode * 397) ^ _int32;
+                    hashCode = (hashCode * 397) ^ (int)_uint32;
+                    hashCode = (hashCode * 397) ^ _int64.GetHashCode();
+                    hashCode = (hashCode * 397) ^ _uint64.GetHashCode();
+                    hashCode = (hashCode * 397) ^ _single.GetHashCode();
+                    hashCode = (hashCode * 397) ^ _double.GetHashCode();
+                    return hashCode;
+                }
+            }
         }
 
         private InternalValue _val;
@@ -1312,6 +1337,83 @@ namespace ReClosure
             public static Func<T, SValue> Invoke => InternalInvoke ?? Default;
 
             internal delegate void TW(T v);
+        }
+        
+        public bool Equals(SValue other)
+        {
+            if (ValueType != other.ValueType)
+            {
+                return false;
+            }
+
+            switch (ValueType)
+            {
+                case Type.Nil:
+                    return true;
+                    break;
+                case Type.Boolean:
+                    return _val._bool == other._val._bool;
+                    break;
+                case Type.Int8:
+                    return _val._int8 == other._val._int8;
+                case Type.UInt8:
+                    return _val._uint8 == other._val._uint8;
+                case Type.Char:
+                    return _val._char == other._val._char;
+                case Type.Int16:
+                    return _val._int16 == other._val._int16;
+                case Type.UInt16:
+                    return _val._uint16 == other._val._uint16;
+                case Type.Int32:
+                    return _val._int32 == other._val._int32;
+                case Type.UInt32:
+                    return _val._uint32 == other._val._uint32;
+                case Type.Int64:
+                    return _val._int64 == other._val._int64;
+                case Type.UInt64:
+                    return _val._uint64 == other._val._uint64;
+                case Type.Single:
+                    return _val._single == other._val._single;
+                case Type.Double:
+                    return _val._double == other._val._double;
+                case Type.String:
+                    return _obj as string == other._obj as string;
+                case Type.Object:
+                    return _obj == other._obj;
+#if RE_CLOSURE_FOR_UNITY
+                case Type.Vector2:
+                    return _val._vec2 == other._val._vec2;
+                case Type.Vector3:
+                    return _val._vec3 == other._val._vec3;
+                case Type.Vector4:
+                    return _val._vec4 == other._val._vec4;
+                case Type.Quaternion:
+                    return _val._quat == other._val._quat;
+                case Type.Color32:
+                    return _val._color32 == other._val._color32;
+                case Type.Color4f:
+                    return _val._color4f == other._val._color4f;
+#endif
+                default:
+                    break;
+            }
+            throw new ArgumentOutOfRangeException();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is SValue other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = _val.GetHashCode();
+                hashCode = (hashCode * 397) ^ (_obj != null ? _obj.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (int)ValueType;
+                return hashCode;
+            }
         }
     }
 }

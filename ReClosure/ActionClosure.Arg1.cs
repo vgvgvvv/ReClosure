@@ -1,20 +1,30 @@
 ﻿namespace ReClosure
 {
-    public struct ActionClosure<TInput0>
+    public struct ActionClosure<TInput0>: IEquatable<ActionClosure<TInput0>>
     {
-        private Closure _closure;
+        private Closure _context;
         private Action<Closure, TInput0> _wrapper;
 
+        public static implicit operator ActionClosure<TInput0>(Action<TInput0> action)
+        {
+            return Create(action);
+        }
+        
+        public bool IsValid()
+        {
+            return _context.IsValid() && _wrapper != null;
+        }
+        
         public void Reset()
         {
             _wrapper = null;
-            _closure.Reset();
+            _context.Reset();
         }
 
         public void Invoke(TInput0 arg)
         {
             if (_wrapper != null) 
-                _wrapper(_closure, arg);
+                _wrapper(_context, arg);
         }
 
         public static ActionClosure<TInput0> Create(Action<TInput0> action)
@@ -22,7 +32,7 @@
             Closure.Check(action);
             return new ActionClosure<TInput0>
             {
-                _closure = new Closure { _delegate = action },
+                _context = new Closure { _delegate = action },
                 _wrapper = (c, arg0) => c.Invoke(arg0)
             };
         }
@@ -32,7 +42,7 @@
             Closure.Check(action);
             return new ActionClosure<TInput0>
             {
-                _closure = new Closure
+                _context = new Closure
                 {
                     _0 = SValue.Writer<T>.Invoke(ctx),
                     _delegate = action
@@ -46,7 +56,7 @@
             Closure.Check(action);
             return new ActionClosure<TInput0>
             {
-                _closure = new Closure
+                _context = new Closure
                 {
                     _0 = SValue.Writer<T0>.Invoke(ctx0),
                     _1 = SValue.Writer<T1>.Invoke(ctx1),
@@ -61,7 +71,7 @@
             Closure.Check(action);
             return new ActionClosure<TInput0>
             {
-                _closure = new Closure
+                _context = new Closure
                 {
                     _0 = SValue.Writer<T0>.Invoke(ctx0),
                     _1 = SValue.Writer<T1>.Invoke(ctx1),
@@ -86,6 +96,23 @@
         {
             internal static Action<Closure, TInput0> _default = (e, arg) => e.Invoke<T0, T1, T2, TInput0>(arg);
         }
-        
+
+        public bool Equals(ActionClosure<TInput0> other)
+        {
+            return _context.Equals(other._context) && Equals(_wrapper, other._wrapper);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is ActionClosure<TInput0> other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (_context.GetHashCode() * 397) ^ (_wrapper != null ? _wrapper.GetHashCode() : 0);
+            }
+        }
     }
 }
