@@ -1,21 +1,24 @@
-﻿namespace ReClosure
+﻿using System;
+using System.Collections.Generic;
+
+namespace ReClosure
 {
     // Memory friendly multi-cast-delegate implementation
-// It could eliminate unnecessary GC-allocation for delegate cloning( add, remove )
-// Usage:
-// class Test {
-//    ClosureEvent<int> callback;
-//    Test() {
-//        callback += Func;
-//        if ( callback ) {
-//            callback.Invoke( 0 );
-//        }
-//    }
-//    void Func( int a ) {
-//        // no problem at all
-//        callback -= Func;
-//    }
-//}
+    // It could eliminate unnecessary GC-allocation for delegate cloning( add, remove )
+    // Usage:
+    // class Test {
+    //    ClosureEvent<int> callback;
+    //    Test() {
+    //        callback += Func;
+    //        if ( callback ) {
+    //            callback.Invoke( 0 );
+    //        }
+    //    }
+    //    void Func( int a ) {
+    //        // no problem at all
+    //        callback -= Func;
+    //    }
+    //}
 
     public struct ClosureEvent
     {

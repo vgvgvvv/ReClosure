@@ -1,6 +1,8 @@
-namespace ReClosure;
+using System;
 
-public static partial class BindHelper
+namespace ReClosure
+{
+	public static partial class BindHelper
 {
 	public static ActionClosure Bind<T>(this Action<T> action, T ctx)
 	{
@@ -72,3 +74,5 @@ public static partial class BindHelper
 		return ActionClosure<T0, T1, T2>.Create(action, self);
 	}
 }
+}
+

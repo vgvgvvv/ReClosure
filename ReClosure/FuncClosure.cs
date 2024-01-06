@@ -1,4 +1,6 @@
-﻿namespace ReClosure
+﻿using System;
+
+namespace ReClosure
 {
     public struct FuncClosure : IEquatable<FuncClosure>
     {

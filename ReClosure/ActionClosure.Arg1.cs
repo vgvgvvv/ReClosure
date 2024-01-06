@@ -1,4 +1,6 @@
-﻿namespace ReClosure
+﻿using System;
+
+namespace ReClosure
 {
     public struct ActionClosure<TInput0>: IEquatable<ActionClosure<TInput0>>
     {

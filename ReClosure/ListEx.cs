@@ -1,4 +1,7 @@
-﻿namespace ReClosure
+﻿using System;
+using System.Collections.Generic;
+
+namespace ReClosure
 {
     public static class ListEx
     {

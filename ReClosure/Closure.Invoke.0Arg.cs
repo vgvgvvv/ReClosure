@@ -1,4 +1,5 @@
-﻿namespace ReClosure
+﻿using System;
+namespace ReClosure
 {
     public partial struct Closure
     {

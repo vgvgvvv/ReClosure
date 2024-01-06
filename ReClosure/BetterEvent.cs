@@ -1,4 +1,7 @@
-﻿namespace ReClosure
+﻿using System;
+using System.Collections.Generic;
+
+namespace ReClosure
 {
     // Memory friendly multi-cast-delegate implementation
 // It could eliminate unnecessary GC-allocation for delegate cloning( add, remove )

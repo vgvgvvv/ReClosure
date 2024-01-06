@@ -1,6 +1,7 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Runtime.InteropServices;
-#if RE_CLOSURE_FOR_UNITY
+#if UNITY_2019_1_OR_NEWER
 using UnityEngine;
 #endif
 
@@ -11,7 +12,7 @@ namespace ReClosure
         static SValue()
         {
             _nil.ValueType = Type.Nil;
-#if RE_CLOSURE_FOR_UNITY
+#if UNITY_2019_1_OR_NEWER
             _nil._val._vec4 = Vector4.zero;
 #endif
             _nil._obj = null;
@@ -38,7 +39,7 @@ namespace ReClosure
             Double,
             String,
             Object,
-#if RE_CLOSURE_FOR_UNITY
+#if UNITY_2019_1_OR_NEWER
         Vector2,
         Vector3,
         Vector4,
@@ -75,7 +76,7 @@ namespace ReClosure
             [FieldOffset(0)] internal Single _single;
 
             [FieldOffset(0)] internal Double _double;
-#if RE_CLOSURE_FOR_UNITY
+#if UNITY_2019_1_OR_NEWER
             [FieldOffset( 0 )]
             internal Vector2 _vec2;
 
@@ -92,7 +93,7 @@ namespace ReClosure
             internal Color _color4f;
 
             [FieldOffset( 0 )]
-            internal Color32 _color32;
+            internal UnityEngine.Color32 _color32;
 #endif
 
             public override bool Equals(object obj)
@@ -164,15 +165,13 @@ namespace ReClosure
                     return _val._int8.ToString();
                 case Type.Boolean:
                     return _val._bool.ToString();
-#if RE_CLOSURE_FOR_UNITY
+#if UNITY_2019_1_OR_NEWER
             case Type.Vector2:
                 return _val._vec2.ToString();
             case Type.Vector3:
                 return _val._vec3.ToString();
             case Type.Vector4:
                 return _val._vec4.ToString();
-            case Type.Vector4i:
-                return _val._vec4i.ToString();
             case Type.Quaternion:
                 return _val._quat.ToString();
             case Type.Color32:
@@ -249,7 +248,7 @@ namespace ReClosure
                     return (sbyte)_val._single;
                 case Type.Double:
                     return (sbyte)_val._double;
-#if RE_CLOSURE_FOR_UNITY
+#if UNITY_2019_1_OR_NEWER
             case Type.Vector2:
                 return ( SByte )_val._vec2.x;
             case Type.Vector3:
@@ -296,7 +295,7 @@ namespace ReClosure
                     return (byte)_val._single;
                 case Type.Double:
                     return (byte)_val._double;
-#if RE_CLOSURE_FOR_UNITY
+#if UNITY_2019_1_OR_NEWER
             case Type.Vector2:
                 return ( Byte )_val._vec2.x;
             case Type.Vector3:
@@ -343,7 +342,7 @@ namespace ReClosure
                     return (char)_val._single;
                 case Type.Double:
                     return (char)_val._double;
-#if RE_CLOSURE_FOR_UNITY
+#if UNITY_2019_1_OR_NEWER
             case Type.Vector2:
                 return ( Char )_val._vec2.x;
             case Type.Vector3:
@@ -390,7 +389,7 @@ namespace ReClosure
                     return (short)_val._single;
                 case Type.Double:
                     return (short)_val._double;
-#if RE_CLOSURE_FOR_UNITY
+#if UNITY_2019_1_OR_NEWER
             case Type.Vector2:
                 return ( Int16 )_val._vec2.x;
             case Type.Vector3:
@@ -437,7 +436,7 @@ namespace ReClosure
                     return (ushort)_val._single;
                 case Type.Double:
                     return (ushort)_val._double;
-#if RE_CLOSURE_FOR_UNITY
+#if UNITY_2019_1_OR_NEWER
             case Type.Vector2:
                 return ( UInt16 )_val._vec2.x;
             case Type.Vector3:
@@ -484,7 +483,7 @@ namespace ReClosure
                     return (int)_val._single;
                 case Type.Double:
                     return (int)_val._double;
-#if RE_CLOSURE_FOR_UNITY
+#if UNITY_2019_1_OR_NEWER
             case Type.Vector2:
                 return ( Int32 )_val._vec2.x;
             case Type.Vector3:
@@ -531,7 +530,7 @@ namespace ReClosure
                     return (uint)_val._single;
                 case Type.Double:
                     return (uint)_val._double;
-#if RE_CLOSURE_FOR_UNITY
+#if UNITY_2019_1_OR_NEWER
             case Type.Vector2:
                 return ( UInt32 )_val._vec2.x;
             case Type.Vector3:
@@ -578,7 +577,7 @@ namespace ReClosure
                     return (long)_val._single;
                 case Type.Double:
                     return (long)_val._double;
-#if RE_CLOSURE_FOR_UNITY
+#if UNITY_2019_1_OR_NEWER
             case Type.Vector2:
                 return ( Int64 )_val._vec2.x;
             case Type.Vector3:
@@ -625,7 +624,7 @@ namespace ReClosure
                     return (ulong)_val._single;
                 case Type.Double:
                     return (ulong)_val._double;
-#if RE_CLOSURE_FOR_UNITY
+#if UNITY_2019_1_OR_NEWER
             case Type.Vector2:
                 return ( UInt64 )_val._vec2.x;
             case Type.Vector3:
@@ -672,7 +671,7 @@ namespace ReClosure
                     return _val._bool ? 1 : 0;
                 case Type.Double:
                     return (float)_val._double;
-#if RE_CLOSURE_FOR_UNITY
+#if UNITY_2019_1_OR_NEWER
             case Type.Vector2:
                 return _val._vec2.x;
             case Type.Vector3:
@@ -719,7 +718,7 @@ namespace ReClosure
                     return _val._int8;
                 case Type.Boolean:
                     return _val._bool ? 1 : 0;
-#if RE_CLOSURE_FOR_UNITY
+#if UNITY_2019_1_OR_NEWER
             case Type.Vector2:
                 return ( Double )_val._vec2.x;
             case Type.Vector3:
@@ -737,9 +736,9 @@ namespace ReClosure
 
             return 0;
         }
-#if RE_CLOSURE_FOR_UNITY
+#if UNITY_2019_1_OR_NEWER
         public Vector2 ToVector2() {
-            switch ( type ) {
+            switch ( ValueType ) {
             case Type.Vector2:
                 return _val._vec2;
             case Type.Vector3:
@@ -776,14 +775,12 @@ namespace ReClosure
                 return new Vector2( _val._color32.r / 255.0f, _val._color4f.g / 255.0f );
             case Type.Quaternion:
                 return new Vector2( _val._quat.x, _val._quat.y );
-            case Type.Vector4i:
-                return new Vector2( _val._vec4i.x, _val._vec4i.y );
             }
             return Vector2.zero;
         }
 
         public Vector3 ToVector3() {
-            switch ( type ) {
+            switch ( ValueType ) {
             case Type.Vector3:
                 return _val._vec3;
             case Type.Vector2:
@@ -820,14 +817,12 @@ namespace ReClosure
                 return new Vector3( _val._color32.r / 255.0f, _val._color4f.g / 255.0f, _val._color4f.b / 255.0f );
             case Type.Quaternion:
                 return new Vector3( _val._quat.x, _val._quat.y, _val._quat.z );
-            case Type.Vector4i:
-                return new Vector3( _val._vec4i.x, _val._vec4i.y, _val._vec4i.z );
             }
             return Vector3.zero;
         }
 
         public Vector4 ToVector4() {
-            switch ( type ) {
+            switch ( ValueType ) {
             case Type.Vector4:
                 return _val._vec4;
             case Type.Vector3:
@@ -864,14 +859,12 @@ namespace ReClosure
                 return new Vector4( _val._color32.r / 255.0f, _val._color4f.g / 255.0f, _val._color4f.b / 255.0f, _val._color4f.a / 255.0f );
             case Type.Quaternion:
                 return new Vector4( _val._quat.x, _val._quat.y, _val._quat.z, _val._quat.w );
-            case Type.Vector4i:
-                return new Vector4( _val._vec4i.x, _val._vec4i.y, _val._vec4i.z, _val._vec4i.w );
             }
             return Vector3.zero;
         }
 
         public Quaternion ToQuaternion() {
-            switch ( type ) {
+            switch ( ValueType ) {
             case Type.Quaternion:
                 return _val._quat;
             case Type.Vector4:
@@ -908,14 +901,12 @@ namespace ReClosure
                 return new Quaternion( _val._color4f.r, _val._color4f.g, _val._color4f.b, _val._color4f.a );
             case Type.Color32:
                 return new Quaternion( _val._color32.r / 255.0f, _val._color4f.g / 255.0f, _val._color4f.b / 255.0f, _val._color4f.a / 255.0f );
-            case Type.Vector4i:
-                return new Quaternion( _val._vec4i.x, _val._vec4i.y, _val._vec4i.z, _val._vec4i.w );
             }
             return Quaternion.identity;
         }
 
         public Color ToColor() {
-            switch ( type ) {
+            switch ( ValueType ) {
             case Type.Color4f:
                 return _val._color4f;
             case Type.Color32:
@@ -924,8 +915,6 @@ namespace ReClosure
                 return new Color( _val._quat.x, _val._quat.y, _val._quat.z, _val._quat.w );
             case Type.Vector4:
                 return new Color( _val._vec4.x, _val._vec4.y, _val._vec4.z, _val._vec4.w );
-            case Type.Vector4i:
-                return new Color( _val._vec4i.x / 255.0f, _val._vec4i.y / 255.0f, _val._vec4i.z / 255.0f, _val._vec4i.w / 255.0f );
             case Type.Vector3:
                 return new Color( _val._vec3.x, _val._vec3.y, _val._vec3.z, 0 );
             case Type.Vector2:
@@ -959,7 +948,7 @@ namespace ReClosure
         }
 
         public Color32 ToColor32() {
-            switch ( type ) {
+            switch ( ValueType ) {
             case Type.Color32:
                 return _val._color32;
             case Type.Color4f:
@@ -968,8 +957,6 @@ namespace ReClosure
                 return new Color( _val._quat.x, _val._quat.y, _val._quat.z, _val._quat.w );
             case Type.Vector4:
                 return new Color( _val._vec4.x, _val._vec4.y, _val._vec4.z, _val._vec4.w );
-            case Type.Vector4i:
-                return new Color32( ( byte )_val._vec4i.x, ( byte )_val._vec4i.y, ( byte )_val._vec4i.z, ( byte )_val._vec4i.w );
             case Type.Vector3:
                 return new Color( _val._vec3.x, _val._vec3.y, _val._vec3.z, 0 );
             case Type.Vector2:
@@ -1151,81 +1138,81 @@ namespace ReClosure
                 _val = new InternalValue { _double = val }
             };
         }
-#if RE_CLOSURE_FOR_UNITY
+#if UNITY_2019_1_OR_NEWER
         public static SValue Ctor( Vector2 val ) {
             return new SValue {
-                type = Type.Vector2,
-                _val = new __Value { _vec2 = val }
+                ValueType = Type.Vector2,
+                _val = new InternalValue { _vec2 = val }
             };
         }
 
         public static SValue Ctor( ref Vector2 val ) {
             return new SValue {
-                type = Type.Vector2,
-                _val = new __Value { _vec2 = val }
+                ValueType = Type.Vector2,
+                _val = new InternalValue { _vec2 = val }
             };
         }
 
         public static SValue Ctor( Vector3 val ) {
             return new SValue {
-                type = Type.Vector3,
-                _val = new __Value { _vec3 = val }
+                ValueType = Type.Vector3,
+                _val = new InternalValue { _vec3 = val }
             };
         }
 
         public static SValue Ctor( ref Vector3 val ) {
             return new SValue {
-                type = Type.Vector3,
-                _val = new __Value { _vec3 = val }
+                ValueType = Type.Vector3,
+                _val = new InternalValue { _vec3 = val }
             };
         }
 
         public static SValue Ctor( Vector4 val ) {
             return new SValue {
-                type = Type.Vector4,
-                _val = new __Value { _vec4 = val }
+                ValueType = Type.Vector4,
+                _val = new InternalValue { _vec4 = val }
             };
         }
 
         public static SValue Ctor( ref Vector4 val ) {
             return new SValue {
-                type = Type.Vector4,
-                _val = new __Value { _vec4 = val }
+                ValueType = Type.Vector4,
+                _val = new InternalValue { _vec4 = val }
             };
         }
 
         public static SValue Ctor( Quaternion val ) {
             return new SValue {
-                type = Type.Quaternion,
-                _val = new __Value { _quat = val }
+                ValueType = Type.Quaternion,
+                _val = new InternalValue { _quat = val }
             };
         }
 
         public static SValue Ctor( ref Quaternion val ) {
             return new SValue {
-                type = Type.Quaternion,
-                _val = new __Value { _quat = val }
+                ValueType = Type.Quaternion,
+                _val = new InternalValue { _quat = val }
             };
         }
 
         public static SValue Ctor( Color val ) {
             return new SValue {
-                type = Type.Color4f,
-                _val = new __Value { _color4f = val }
+                ValueType = Type.Color4f,
+                _val = new InternalValue { _color4f = val }
             };
         }
 
         public static SValue Ctor( ref Color val ) {
             return new SValue {
-                type = Type.Color4f,
-                _val = new __Value { _color4f = val }
+                ValueType = Type.Color4f,
+                _val = new InternalValue { _color4f = val }
             };
         }
 
         public static SValue Ctor( Color32 val ) {
             return new SValue {
-                type = Type.Color32,
-                _val = new __Value { _color32 = val }
+                ValueType = Type.Color32,
+                _val = new InternalValue { _color32 = val }
             };
         }
 #endif
@@ -1255,14 +1242,13 @@ namespace ReClosure
                 Reader<string>.InternalInvoke = (ref SValue s) => s.ToString();
                 Reader<float>.InternalInvoke = (ref SValue s) => s.ToSingle();
                 Reader<double>.InternalInvoke = (ref SValue s) => s.ToDouble();
-#if RE_CLOSURE_FOR_UNITY
-                Reader<Vector2>._invoke = ( ref SValue s ) => s.ToVector2();
-                Reader<Vector3>._invoke = ( ref SValue s ) => s.ToVector3();
-                Reader<Vector4>._invoke = ( ref SValue s ) => s.ToVector4();
-                Reader<Vector4i>._invoke = ( ref SValue s ) => s.ToVector4i();
-                Reader<Quaternion>._invoke = ( ref SValue s ) => s.ToQuaternion();
-                Reader<Color>._invoke = ( ref SValue s ) => s.ToColor();
-                Reader<Color32>._invoke = ( ref SValue s ) => s.ToColor32();
+#if UNITY_2019_1_OR_NEWER
+                Reader<Vector2>.InternalInvoke = ( ref SValue s ) => s.ToVector2();
+                Reader<Vector3>.InternalInvoke = ( ref SValue s ) => s.ToVector3();
+                Reader<Vector4>.InternalInvoke = ( ref SValue s ) => s.ToVector4();
+                Reader<Quaternion>.InternalInvoke = ( ref SValue s ) => s.ToQuaternion();
+                Reader<Color>.InternalInvoke = ( ref SValue s ) => s.ToColor();
+                Reader<Color32>.InternalInvoke = ( ref SValue s ) => s.ToColor32();
 #endif
                 Reader<object>.InternalInvoke = (ref SValue s) => s.ToObject();
             }
@@ -1289,14 +1275,13 @@ namespace ReClosure
                 Writer<string>.InternalInvoke = v => Ctor(v);
                 Writer<float>.InternalInvoke = v => Ctor(v);
                 Writer<double>.InternalInvoke = v => Ctor(ref v);
-#if RE_CLOSURE_FOR_UNITY
-                Writer<Vector2>._invoke = v => SValue.Ctor( ref v );
-                Writer<Vector3>._invoke = v => SValue.Ctor( ref v );
-                Writer<Vector4>._invoke = v => SValue.Ctor( ref v );
-                Writer<Vector4i>._invoke = v => SValue.Ctor( ref v );
-                Writer<Quaternion>._invoke = v => SValue.Ctor( ref v );
-                Writer<Color>._invoke = v => SValue.Ctor( ref v );
-                Writer<Color32>._invoke = v => SValue.Ctor( v );
+#if UNITY_2019_1_OR_NEWER
+                Writer<Vector2>.InternalInvoke = v => SValue.Ctor( ref v );
+                Writer<Vector3>.InternalInvoke = v => SValue.Ctor( ref v );
+                Writer<Vector4>.InternalInvoke = v => SValue.Ctor( ref v );
+                Writer<Quaternion>.InternalInvoke = v => SValue.Ctor( ref v );
+                Writer<Color>.InternalInvoke = v => SValue.Ctor( ref v );
+                Writer<Color32>.InternalInvoke = v => SValue.Ctor( v );
 #endif
                 Writer<object>.InternalInvoke = v => FromObject(v);
             }
@@ -1380,7 +1365,7 @@ namespace ReClosure
                     return _obj as string == other._obj as string;
                 case Type.Object:
                     return _obj == other._obj;
-#if RE_CLOSURE_FOR_UNITY
+#if UNITY_2019_1_OR_NEWER
                 case Type.Vector2:
                     return _val._vec2 == other._val._vec2;
                 case Type.Vector3:
@@ -1390,7 +1375,7 @@ namespace ReClosure
                 case Type.Quaternion:
                     return _val._quat == other._val._quat;
                 case Type.Color32:
-                    return _val._color32 == other._val._color32;
+                    return _val._color32.r == other._val._color32.r && _val._color32.g == other._val._color32.g && _val._color32.b == other._val._color32.b;
                 case Type.Color4f:
                     return _val._color4f == other._val._color4f;
 #endif
