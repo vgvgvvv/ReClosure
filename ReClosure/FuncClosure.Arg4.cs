@@ -23,6 +23,85 @@ namespace ReClosure
             return Invoke<T>(ref arg0, ref arg1, ref arg2, ref arg3);
         }
         
+        #region Ref1
+        public T Invoke<T>(ref TInput0 arg0, TInput1 arg1, TInput2 arg2, TInput3 arg3)
+        {
+            return Invoke<T>(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public T Invoke<T>(TInput0 arg0, ref TInput1 arg1, TInput2 arg2, TInput3 arg3)
+        {
+            return Invoke<T>(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public T Invoke<T>(TInput0 arg0, TInput1 arg1, ref TInput2 arg2, TInput3 arg3)
+        {
+            return Invoke<T>(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public T Invoke<T>(TInput0 arg0, TInput1 arg1, TInput2 arg2, ref TInput3 arg3)
+        {
+            return Invoke<T>(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        #endregion
+        
+        #region Ref2
+        public T Invoke<T>(ref TInput0 arg0, ref TInput1 arg1, TInput2 arg2, TInput3 arg3)
+        {
+            return Invoke<T>(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public T Invoke<T>(ref TInput0 arg0,  TInput1 arg1, ref TInput2 arg2, TInput3 arg3)
+        {
+            return Invoke<T>(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public T Invoke<T>(ref TInput0 arg0,  TInput1 arg1,  TInput2 arg2, ref TInput3 arg3)
+        {
+            return Invoke<T>(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public T Invoke<T>(TInput0 arg0, ref TInput1 arg1, ref TInput2 arg2, TInput3 arg3)
+        {
+            return Invoke<T>(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public T Invoke<T>(TInput0 arg0, ref TInput1 arg1, TInput2 arg2, ref TInput3 arg3)
+        {
+            return Invoke<T>(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public T Invoke<T>(TInput0 arg0,  TInput1 arg1, ref TInput2 arg2, ref TInput3 arg3)
+        {
+            return Invoke<T>(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        #endregion
+        
+        #region Ref3
+        
+        public T Invoke<T>(ref TInput0 arg0, ref TInput1 arg1, ref TInput2 arg2, TInput3 arg3)
+        {
+            return Invoke<T>(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public T Invoke<T>(ref TInput0 arg0, ref TInput1 arg1, TInput2 arg2, ref TInput3 arg3)
+        {
+            return Invoke<T>(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public T Invoke<T>(ref TInput0 arg0, TInput1 arg1, ref TInput2 arg2, ref TInput3 arg3)
+        {
+            return Invoke<T>(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public T Invoke<T>(TInput0 arg0, ref TInput1 arg1, ref TInput2 arg2, ref TInput3 arg3)
+        {
+            return Invoke<T>(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        #endregion
+        
         public T Invoke<T>(ref TInput0 arg0, ref TInput1 arg1, ref TInput2 arg2, ref TInput3 arg3)
         {
             if (_wrapper != null)
@@ -38,6 +117,85 @@ namespace ReClosure
         {
             Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
         }
+        
+        #region Ref1
+        public void Invoke(ref TInput0 arg0, TInput1 arg1, TInput2 arg2, TInput3 arg3)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public void Invoke(TInput0 arg0, ref TInput1 arg1, TInput2 arg2, TInput3 arg3)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public void Invoke(TInput0 arg0, TInput1 arg1, ref TInput2 arg2, TInput3 arg3)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public void Invoke(TInput0 arg0, TInput1 arg1, TInput2 arg2, ref TInput3 arg3)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        #endregion
+        
+        #region Ref2
+        public void Invoke(ref TInput0 arg0, ref TInput1 arg1, TInput2 arg2, TInput3 arg3)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public void Invoke(ref TInput0 arg0,  TInput1 arg1, ref TInput2 arg2, TInput3 arg3)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public void Invoke(ref TInput0 arg0,  TInput1 arg1,  TInput2 arg2, ref TInput3 arg3)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public void Invoke(TInput0 arg0, ref TInput1 arg1, ref TInput2 arg2, TInput3 arg3)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public void Invoke(TInput0 arg0, ref TInput1 arg1, TInput2 arg2, ref TInput3 arg3)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public void Invoke(TInput0 arg0,  TInput1 arg1, ref TInput2 arg2, ref TInput3 arg3)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        #endregion
+        
+        #region Ref3
+        
+        public void Invoke(ref TInput0 arg0, ref TInput1 arg1, ref TInput2 arg2, TInput3 arg3)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public void Invoke(ref TInput0 arg0, ref TInput1 arg1, TInput2 arg2, ref TInput3 arg3)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public void Invoke(ref TInput0 arg0, TInput1 arg1, ref TInput2 arg2, ref TInput3 arg3)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public void Invoke(TInput0 arg0, ref TInput1 arg1, ref TInput2 arg2, ref TInput3 arg3)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        #endregion
         
         public void Invoke(ref TInput0 arg0, ref TInput1 arg1, ref TInput2 arg2, ref TInput3 arg3)
         {

@@ -23,6 +23,16 @@ namespace ReClosure
             return Invoke<T>(ref arg0, ref arg1);
         }
         
+        public T Invoke<T>(ref TInput0 arg0, TInput1 arg1)
+        {
+            return Invoke<T>(ref arg0, ref arg1);
+        }
+        
+        public T Invoke<T>(TInput0 arg0, ref TInput1 arg1)
+        {
+            return Invoke<T>(ref arg0, ref arg1);
+        }
+        
         public T Invoke<T>(ref TInput0 arg0, ref TInput1 arg1)
         {
             if (_wrapper != null)
@@ -35,6 +45,16 @@ namespace ReClosure
         }
 
         public void Invoke(TInput0 arg0, TInput1 arg1)
+        {
+            Invoke(ref arg0, ref arg1);
+        }
+        
+        public void Invoke(ref TInput0 arg0, TInput1 arg1)
+        {
+            Invoke(ref arg0, ref arg1);
+        }
+        
+        public void Invoke(TInput0 arg0, ref TInput1 arg1)
         {
             Invoke(ref arg0, ref arg1);
         }

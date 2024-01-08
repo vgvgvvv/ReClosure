@@ -30,8 +30,17 @@ namespace ReClosure
 
         public void Invoke(TInput0 arg, TInput1 arg1)
         {
-            if (_wrapper != null) 
-                _wrapper(ref _context, ref arg, ref arg1);
+            Invoke(ref arg, ref arg1);
+        }
+        
+        public void Invoke(ref TInput0 arg, TInput1 arg1)
+        {
+            Invoke(ref arg, ref arg1);
+        }
+        
+        public void Invoke(TInput0 arg, ref TInput1 arg1)
+        {
+            Invoke(ref arg, ref arg1);
         }
         
         public void Invoke(ref TInput0 arg, ref TInput1 arg1)

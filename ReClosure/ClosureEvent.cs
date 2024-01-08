@@ -310,6 +310,16 @@ namespace ReClosure
             Invoke(ref arg1, ref arg2);
         }
         
+        public void Invoke(ref T1 arg0, T2 arg1)
+        {
+            Invoke(ref arg0, ref arg1);
+        }
+        
+        public void Invoke(T1 arg0, ref T2 arg1)
+        {
+            Invoke(ref arg0, ref arg1);
+        }
+        
         public void Invoke(ref T1 arg1, ref T2 arg2)
         {
             var list = _calleeList;
@@ -427,6 +437,36 @@ namespace ReClosure
             Invoke(ref arg1, ref arg2, ref arg3);
         }
         
+        public void Invoke(ref T1 arg0, T2 arg1, T3 arg2)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public void Invoke(T1 arg0, ref T2 arg1, T3 arg2)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public void Invoke(T1 arg0, T2 arg1, ref T3 arg2)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public void Invoke(ref T1 arg0, ref T2 arg1, T3 arg2)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public void Invoke(ref T1 arg0,  T2 arg1, ref T3 arg2)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public void Invoke(T1 arg0, ref T2 arg1, ref T3 arg2)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
         public void Invoke(ref T1 arg1, ref T2 arg2, ref T3 arg3)
         {
             var list = _calleeList;
@@ -539,6 +579,85 @@ namespace ReClosure
         {
             Invoke(ref arg1, ref arg2, ref arg3, ref arg4);
         }
+        
+        #region Ref1
+        public void Invoke(ref T1 arg0, T2 arg1, T3 arg2, T4 arg3)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public void Invoke(T1 arg0, ref T2 arg1, T3 arg2, T4 arg3)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public void Invoke(T1 arg0, T2 arg1, ref T3 arg2, T4 arg3)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public void Invoke(T1 arg0, T2 arg1, T3 arg2, ref T4 arg3)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        #endregion
+        
+        #region Ref2
+        public void Invoke(ref T1 arg0, ref T2 arg1, T3 arg2, T4 arg3)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public void Invoke(ref T1 arg0,  T2 arg1, ref T3 arg2, T4 arg3)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public void Invoke(ref T1 arg0,  T2 arg1,  T3 arg2, ref T4 arg3)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public void Invoke(T1 arg0, ref T2 arg1, ref T3 arg2, T4 arg3)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public void Invoke(T1 arg0, ref T2 arg1, T3 arg2, ref T4 arg3)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public void Invoke(T1 arg0,  T2 arg1, ref T3 arg2, ref T4 arg3)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        #endregion
+        
+        #region Ref3
+        
+        public void Invoke(ref T1 arg0, ref T2 arg1, ref T3 arg2, T4 arg3)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public void Invoke(ref T1 arg0, ref T2 arg1, T3 arg2, ref T4 arg3)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public void Invoke(ref T1 arg0, T2 arg1, ref T3 arg2, ref T4 arg3)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public void Invoke(T1 arg0, ref T2 arg1, ref T3 arg2, ref T4 arg3)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        #endregion
 
         public void Invoke(ref T1 arg1, ref T2 arg2, ref T3 arg3, ref T4 arg4)
         {

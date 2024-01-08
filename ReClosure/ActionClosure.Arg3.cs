@@ -28,10 +28,39 @@ namespace ReClosure
             _context.Reset();
         }
 
-        public void Invoke(TInput0 arg, TInput1 arg1, TInput2 arg3)
+        public void Invoke(TInput0 arg0, TInput1 arg1, TInput2 arg2)
         {
-            if (_wrapper != null) 
-                _wrapper(ref _context, ref arg, ref arg1, ref arg3);
+            Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public void Invoke(ref TInput0 arg0, TInput1 arg1, TInput2 arg2)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public void Invoke(TInput0 arg0, ref TInput1 arg1, TInput2 arg2)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public void Invoke(TInput0 arg0, TInput1 arg1, ref TInput2 arg2)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public void Invoke(ref TInput0 arg0, ref TInput1 arg1, TInput2 arg2)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public void Invoke(ref TInput0 arg0,  TInput1 arg1, ref TInput2 arg2)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public void Invoke(TInput0 arg0, ref TInput1 arg1, ref TInput2 arg2)
+        {
+            Invoke(ref arg0, ref arg1, ref arg2);
         }
         
         public void Invoke(ref TInput0 arg, ref TInput1 arg1, ref TInput2 arg3)
