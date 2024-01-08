@@ -494,7 +494,7 @@ namespace ReClosure
                 ++_depth;
                 foreach (var callback in list)
                 {
-                    callback.Invoke(arg1, arg2, arg3, arg4);
+                    callback.Invoke(ref arg1, ref arg2, ref arg3, ref arg4);
                 }
             }
             finally

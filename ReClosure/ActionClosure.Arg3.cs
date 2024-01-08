@@ -5,9 +5,14 @@ namespace ReClosure
     public struct ActionClosure<TInput0, TInput1, TInput2> : IEquatable<ActionClosure<TInput0, TInput1, TInput2>>
     {
         private Closure _context;
-        private Action<Closure, TInput0, TInput1, TInput2> _wrapper;
+        private ActionByRef<Closure, TInput0, TInput1, TInput2> _wrapper;
 
         public static implicit operator ActionClosure<TInput0, TInput1, TInput2>(Action<TInput0, TInput1, TInput2> action)
+        {
+            return Create(action);
+        }
+        
+        public static implicit operator ActionClosure<TInput0, TInput1, TInput2>(ActionByRef<TInput0, TInput1, TInput2> action)
         {
             return Create(action);
         }
@@ -26,7 +31,13 @@ namespace ReClosure
         public void Invoke(TInput0 arg, TInput1 arg1, TInput2 arg3)
         {
             if (_wrapper != null) 
-                _wrapper(_context, arg, arg1, arg3);
+                _wrapper(ref _context, ref arg, ref arg1, ref arg3);
+        }
+        
+        public void Invoke(ref TInput0 arg, ref TInput1 arg1, ref TInput2 arg3)
+        {
+            if (_wrapper != null) 
+                _wrapper(ref _context, ref arg, ref arg1, ref arg3);
         }
 
         public static ActionClosure<TInput0, TInput1, TInput2> Create(Action<TInput0, TInput1, TInput2> action)
@@ -35,10 +46,21 @@ namespace ReClosure
             return new ActionClosure<TInput0, TInput1, TInput2>
             {
                 _context = new Closure { _delegate = action },
-                _wrapper = (c, arg0, arg1, arg2) => c.Invoke(arg0, arg1, arg2)
+                _wrapper = ActionClosureWrapper._default
+            };
+        }
+        
+        public static ActionClosure<TInput0, TInput1, TInput2> Create(ActionByRef<TInput0, TInput1, TInput2> action)
+        {
+            Closure.Check(action);
+            return new ActionClosure<TInput0, TInput1, TInput2>
+            {
+                _context = new Closure { _delegate = action },
+                _wrapper = ActionClosureWrapper._default
             };
         }
 
+        
         public static ActionClosure<TInput0, TInput1, TInput2> Create<T>(Action<T, TInput0, TInput1, TInput2> action, T ctx)
         {
             Closure.Check(action);
@@ -52,11 +74,39 @@ namespace ReClosure
                 _wrapper = ActionClosureWrapper<T>._default
             };
         }
+        
+        public static ActionClosure<TInput0, TInput1, TInput2> Create<T>(ActionByRef<T, TInput0, TInput1, TInput2> action, T ctx)
+        {
+            Closure.Check(action);
+            return new ActionClosure<TInput0, TInput1, TInput2>
+            {
+                _context = new Closure
+                {
+                    _0 = SValue.Writer<T>.Invoke(ctx),
+                    _delegate = action
+                },
+                _wrapper = ActionClosureWrapper<T>._default
+            };
+        }
 
-    
+
+        internal class ActionClosureWrapper
+        {
+            internal static ActionByRef<Closure, TInput0, TInput1, TInput2> _default = Wrapper;
+
+            private static void Wrapper(ref Closure closure, ref TInput0 arg0, ref TInput1 arg1, ref TInput2 arg2)
+            {
+                closure.Invoke<TInput0, TInput1, TInput2>(ref arg0, ref arg1, ref arg2);
+            }
+        }
         internal class ActionClosureWrapper<T>
         {
-            internal static Action<Closure, TInput0, TInput1, TInput2> _default = (e, arg0, arg1, arg2) => e.Invoke<T, TInput0, TInput1, TInput2>(arg0, arg1, arg2);
+            internal static ActionByRef<Closure, TInput0, TInput1, TInput2> _default = Wrapper;
+            
+            private static void Wrapper(ref Closure closure, ref TInput0 arg0, ref TInput1 arg1, ref TInput2 arg2)
+            {
+                closure.Invoke<T, TInput0, TInput1, TInput2>(ref arg0, ref arg1, ref arg2);
+            }
         }
 
         public bool Equals(ActionClosure<TInput0, TInput1, TInput2> other)
