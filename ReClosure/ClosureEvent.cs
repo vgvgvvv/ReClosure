@@ -146,6 +146,18 @@ namespace ReClosure
             lhs.Remove(rhs);
             return lhs;
         }
+        
+        public static ClosureEvent<T> operator +(ClosureEvent<T> lhs, ActionByRef<T> rhs)
+        {
+            lhs.Add(rhs);
+            return lhs;
+        }
+
+        public static ClosureEvent<T> operator -(ClosureEvent<T> lhs, ActionByRef<T> rhs)
+        {
+            lhs.Remove(rhs);
+            return lhs;
+        }
 
         public static implicit operator bool(ClosureEvent<T> exists)
         {
@@ -181,6 +193,11 @@ namespace ReClosure
 
         public void Invoke(T arg)
         {
+            Invoke(ref arg);
+        }
+
+        public void Invoke(ref T arg)
+        {
             var list = _calleeList;
             if (list == null) return;
             try
@@ -188,7 +205,7 @@ namespace ReClosure
                 ++_depth;
                 foreach (var callback in list)
                 {
-                    callback.Invoke(arg);
+                    callback.Invoke(ref arg);
                 }
             }
             finally
@@ -244,6 +261,19 @@ namespace ReClosure
             lhs.Remove(rhs);
             return lhs;
         }
+        
+        public static ClosureEvent<T1, T2> operator +(ClosureEvent<T1, T2> lhs, ActionByRef<T1, T2> rhs)
+        {
+            lhs.Add(rhs);
+            return lhs;
+        }
+
+        public static ClosureEvent<T1, T2> operator -(ClosureEvent<T1, T2> lhs, ActionByRef<T1, T2> rhs)
+        {
+            lhs.Remove(rhs);
+            return lhs;
+        }
+        
 
         public static implicit operator bool(ClosureEvent<T1, T2> exists)
         {
@@ -277,6 +307,11 @@ namespace ReClosure
 
         public void Invoke(T1 arg1, T2 arg2)
         {
+            Invoke(ref arg1, ref arg2);
+        }
+        
+        public void Invoke(ref T1 arg1, ref T2 arg2)
+        {
             var list = _calleeList;
             if (list == null) return;
             try
@@ -284,7 +319,7 @@ namespace ReClosure
                 ++_depth;
                 foreach (var callback in list)
                 {
-                    callback.Invoke(arg1, arg2);
+                    callback.Invoke(ref arg1, ref arg2);
                 }
             }
             finally
@@ -342,6 +377,18 @@ namespace ReClosure
             lhs.Remove(rhs);
             return lhs;
         }
+        
+        public static ClosureEvent<T1, T2, T3> operator +(ClosureEvent<T1, T2, T3> lhs, ActionByRef<T1, T2, T3> rhs)
+        {
+            lhs.Add(rhs);
+            return lhs;
+        }
+
+        public static ClosureEvent<T1, T2, T3> operator -(ClosureEvent<T1, T2, T3> lhs, ActionByRef<T1, T2, T3> rhs)
+        {
+            lhs.Remove(rhs);
+            return lhs;
+        }
 
         public static implicit operator bool(ClosureEvent<T1, T2, T3> exists)
         {
@@ -374,22 +421,13 @@ namespace ReClosure
                 }
             }
         }
-        
-        public event Action<T1, T2, T3> Slot
-        {
-            add
-            {
-                if (value == null) return;
-                
-            }
-            remove
-            {
-                if (value == null) return;
-                
-            }
-        }
 
         public void Invoke(T1 arg1, T2 arg2, T3 arg3)
+        {
+            Invoke(ref arg1, ref arg2, ref arg3);
+        }
+        
+        public void Invoke(ref T1 arg1, ref T2 arg2, ref T3 arg3)
         {
             var list = _calleeList;
             if (list == null) return;
@@ -398,7 +436,7 @@ namespace ReClosure
                 ++_depth;
                 foreach (var callback in list)
                 {
-                    callback.Invoke(arg1, arg2, arg3);
+                    callback.Invoke(ref arg1, ref arg2, ref arg3);
                 }
             }
             finally
@@ -454,6 +492,18 @@ namespace ReClosure
             lhs.Remove(rhs);
             return lhs;
         }
+        
+        public static ClosureEvent<T1, T2, T3, T4> operator +(ClosureEvent<T1, T2, T3, T4> lhs, ActionByRef<T1, T2, T3, T4> rhs)
+        {
+            lhs.Add(rhs);
+            return lhs;
+        }
+
+        public static ClosureEvent<T1, T2, T3, T4> operator -(ClosureEvent<T1, T2, T3, T4> lhs, ActionByRef<T1, T2, T3, T4> rhs)
+        {
+            lhs.Remove(rhs);
+            return lhs;
+        }
 
         public static implicit operator bool(ClosureEvent<T1, T2, T3, T4> exists)
         {
@@ -486,6 +536,11 @@ namespace ReClosure
         }
 
         public void Invoke(T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        {
+            Invoke(ref arg1, ref arg2, ref arg3, ref arg4);
+        }
+
+        public void Invoke(ref T1 arg1, ref T2 arg2, ref T3 arg3, ref T4 arg4)
         {
             var list = _calleeList;
             if (list == null) return;

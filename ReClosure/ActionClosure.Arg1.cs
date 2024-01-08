@@ -12,6 +12,11 @@ namespace ReClosure
             return Create(action);
         }
         
+        public static implicit operator ActionClosure<TInput0>(ActionByRef<TInput0> action)
+        {
+            return Create(action);
+        }
+        
         public bool IsValid()
         {
             return _context.IsValid() && _wrapper != null;
