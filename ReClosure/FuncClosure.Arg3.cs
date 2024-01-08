@@ -28,8 +28,20 @@ namespace ReClosure
             return Invoke<T>(ref arg0, ref arg1, ref arg2);
         }
         
+        public T InvokeOut<T>(out TInput0 arg0, TInput1 arg1, TInput2 arg2)
+        {
+            arg0 = default;
+            return Invoke<T>(ref arg0, ref arg1, ref arg2);
+        }
+        
         public T Invoke<T>(TInput0 arg0, ref TInput1 arg1, TInput2 arg2)
         {
+            return Invoke<T>(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public T InvokeOut<T>(TInput0 arg0, out TInput1 arg1, TInput2 arg2)
+        {
+            arg1 = default;
             return Invoke<T>(ref arg0, ref arg1, ref arg2);
         }
         
@@ -38,8 +50,21 @@ namespace ReClosure
             return Invoke<T>(ref arg0, ref arg1, ref arg2);
         }
         
+        public T InvokeOut<T>(TInput0 arg0, TInput1 arg1, out TInput2 arg2)
+        {
+            arg2 = default;
+            return Invoke<T>(ref arg0, ref arg1, ref arg2);
+        }
+        
         public T Invoke<T>(ref TInput0 arg0, ref TInput1 arg1, TInput2 arg2)
         {
+            return Invoke<T>(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public T InvokeOut<T>(out TInput0 arg0, out TInput1 arg1, TInput2 arg2)
+        {
+            arg0 = default;
+            arg1 = default;
             return Invoke<T>(ref arg0, ref arg1, ref arg2);
         }
         
@@ -48,8 +73,22 @@ namespace ReClosure
             return Invoke<T>(ref arg0, ref arg1, ref arg2);
         }
         
+        public T InvokeOut<T>(out TInput0 arg0, TInput1 arg1, out TInput2 arg2)
+        {
+            arg0 = default;
+            arg2 = default;
+            return Invoke<T>(ref arg0, ref arg1, ref arg2);
+        }
+        
         public T Invoke<T>(TInput0 arg0, ref TInput1 arg1, ref TInput2 arg2)
         {
+            return Invoke<T>(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public T InvokeOut<T>(TInput0 arg0, out TInput1 arg1, out TInput2 arg2)
+        {
+            arg1 = default;
+            arg2 = default;
             return Invoke<T>(ref arg0, ref arg1, ref arg2);
         }
         
@@ -63,6 +102,14 @@ namespace ReClosure
 
             return default;
         }
+        
+        public T InvokeOut<T>(out TInput0 arg0, out TInput1 arg1, out TInput2 arg2)
+        {
+            arg0 = default;
+            arg1 = default;
+            arg2 = default;
+            return Invoke<T>(ref arg0, ref arg1, ref arg2);
+        }
 
         public void Invoke(TInput0 arg0, TInput1 arg1, TInput2 arg2)
         {
@@ -74,8 +121,20 @@ namespace ReClosure
             Invoke(ref arg0, ref arg1, ref arg2);
         }
         
+        public void InvokeOut(out TInput0 arg0, TInput1 arg1, TInput2 arg2)
+        {
+            arg0 = default;
+            Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
         public void Invoke(TInput0 arg0, ref TInput1 arg1, TInput2 arg2)
         {
+            Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public void InvokeOut(TInput0 arg0, out TInput1 arg1, TInput2 arg2)
+        {
+            arg1 = default;
             Invoke(ref arg0, ref arg1, ref arg2);
         }
         
@@ -84,8 +143,21 @@ namespace ReClosure
             Invoke(ref arg0, ref arg1, ref arg2);
         }
         
+        public void InvokeOut(TInput0 arg0, TInput1 arg1, out TInput2 arg2)
+        {
+            arg2 = default;
+            Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
         public void Invoke(ref TInput0 arg0, ref TInput1 arg1, TInput2 arg2)
         {
+            Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public void InvokeOut(out TInput0 arg0, out TInput1 arg1, TInput2 arg2)
+        {
+            arg0 = default;
+            arg1 = default;
             Invoke(ref arg0, ref arg1, ref arg2);
         }
         
@@ -94,8 +166,22 @@ namespace ReClosure
             Invoke(ref arg0, ref arg1, ref arg2);
         }
         
+        public void InvokeOut(out TInput0 arg0, TInput1 arg1, out TInput2 arg2)
+        {
+            arg0 = default;
+            arg2 = default;
+            Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
         public void Invoke(TInput0 arg0, ref TInput1 arg1, ref TInput2 arg2)
         {
+            Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public void InvokeOut(TInput0 arg0, out TInput1 arg1, out TInput2 arg2)
+        {
+            arg1 = default;
+            arg2 = default;
             Invoke(ref arg0, ref arg1, ref arg2);
         }
         
@@ -105,6 +191,14 @@ namespace ReClosure
             {
                 _wrapper(ref _context, ref arg0, ref arg1, ref arg2);
             }
+        }
+        
+        public void InvokeOut(out TInput0 arg0, out TInput1 arg1, out TInput2 arg2)
+        {
+            arg0 = default;
+            arg1 = default;
+            arg2 = default;
+            Invoke(ref arg0, ref arg1, ref arg2);
         }
 
         public static FuncClosure<TInput0, TInput1, TInput2> Create<TResult>(Func<TInput0, TInput1, TInput2, TResult> func)

@@ -196,6 +196,12 @@ namespace ReClosure
             Invoke(ref arg);
         }
 
+        public void InvokeOut(out T arg)
+        {
+            arg = default;
+            Invoke(ref arg);
+        }
+
         public void Invoke(ref T arg)
         {
             var list = _calleeList;
@@ -315,8 +321,20 @@ namespace ReClosure
             Invoke(ref arg0, ref arg1);
         }
         
+        public void InvokeOut(out T1 arg0, T2 arg1)
+        {
+            arg0 = default;
+            Invoke(ref arg0, ref arg1);
+        }
+        
         public void Invoke(T1 arg0, ref T2 arg1)
         {
+            Invoke(ref arg0, ref arg1);
+        }
+        
+        public void InvokeOut(T1 arg0, out T2 arg1)
+        {
+            arg1 = default;
             Invoke(ref arg0, ref arg1);
         }
         
@@ -355,6 +373,13 @@ namespace ReClosure
                     _sparseIndex = 0;
                 }
             }
+        }
+        
+        public void InvokeOut(out T1 arg1, out T2 arg2)
+        {
+            arg1 = default;
+            arg2 = default;
+            Invoke(ref arg1, ref arg2);
         }
     }
 
@@ -442,8 +467,20 @@ namespace ReClosure
             Invoke(ref arg0, ref arg1, ref arg2);
         }
         
+        public void InvokeOut(out T1 arg0, T2 arg1, T3 arg2)
+        {
+            arg0 = default;
+            Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
         public void Invoke(T1 arg0, ref T2 arg1, T3 arg2)
         {
+            Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public void InvokeOut(T1 arg0, out T2 arg1, T3 arg2)
+        {
+            arg1 = default;
             Invoke(ref arg0, ref arg1, ref arg2);
         }
         
@@ -452,8 +489,21 @@ namespace ReClosure
             Invoke(ref arg0, ref arg1, ref arg2);
         }
         
+        public void InvokeOut(T1 arg0, T2 arg1, out T3 arg2)
+        {
+            arg2 = default;
+            Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
         public void Invoke(ref T1 arg0, ref T2 arg1, T3 arg2)
         {
+            Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public void InvokeOut(out T1 arg0, out T2 arg1, T3 arg2)
+        {
+            arg0 = default;
+            arg1 = default;
             Invoke(ref arg0, ref arg1, ref arg2);
         }
         
@@ -462,8 +512,22 @@ namespace ReClosure
             Invoke(ref arg0, ref arg1, ref arg2);
         }
         
+        public void InvokeOut(out T1 arg0, T2 arg1, out T3 arg2)
+        {
+            arg0 = default;
+            arg2 = default;
+            Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
         public void Invoke(T1 arg0, ref T2 arg1, ref T3 arg2)
         {
+            Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public void InvokeOut(T1 arg0, out T2 arg1, out T3 arg2)
+        {
+            arg1 = default;
+            arg2 = default;
             Invoke(ref arg0, ref arg1, ref arg2);
         }
         
@@ -500,6 +564,14 @@ namespace ReClosure
                     _sparseIndex = 0;
                 }
             }
+        }
+        
+        public void InvokeOut(out T1 arg1, out T2 arg2, out T3 arg3)
+        {
+            arg1 = default;
+            arg2 = default;
+            arg3 = default;
+            Invoke(ref arg1, ref arg2, ref arg3);
         }
     }
 
@@ -586,8 +658,20 @@ namespace ReClosure
             Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
         }
         
+        public void InvokeOut(out T1 arg0, T2 arg1, T3 arg2, T4 arg3)
+        {
+            arg0 = default;
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
         public void Invoke(T1 arg0, ref T2 arg1, T3 arg2, T4 arg3)
         {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public void InvokeOut(T1 arg0, out T2 arg1, T3 arg2, T4 arg3)
+        {
+            arg1 = default;
             Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
         }
         
@@ -596,8 +680,20 @@ namespace ReClosure
             Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
         }
         
+        public void InvokeOut(T1 arg0, T2 arg1, out T3 arg2, T4 arg3)
+        {
+            arg2 = default;
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
         public void Invoke(T1 arg0, T2 arg1, T3 arg2, ref T4 arg3)
         {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public void InvokeOut(T1 arg0, T2 arg1, T3 arg2, out T4 arg3)
+        {
+            arg3 = default;
             Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
         }
         #endregion
@@ -608,13 +704,34 @@ namespace ReClosure
             Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
         }
         
+        public void InvokeOut(out T1 arg0, out T2 arg1, T3 arg2, T4 arg3)
+        {
+            arg0 = default;
+            arg1 = default;
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
         public void Invoke(ref T1 arg0,  T2 arg1, ref T3 arg2, T4 arg3)
         {
             Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
         }
         
+        public void InvokeOut(out T1 arg0, T2 arg1, out T3 arg2, T4 arg3)
+        {
+            arg0 = default;
+            arg2 = default;
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
         public void Invoke(ref T1 arg0,  T2 arg1,  T3 arg2, ref T4 arg3)
         {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public void InvokeOut(out T1 arg0, T2 arg1, T3 arg2, out T4 arg3)
+        {
+            arg0 = default;
+            arg3 = default;
             Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
         }
         
@@ -628,8 +745,22 @@ namespace ReClosure
             Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
         }
         
+        public void InvokeOut(T1 arg0, out T2 arg1, out T3 arg2, T4 arg3)
+        {
+            arg1 = default;
+            arg2 = default;
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
         public void Invoke(T1 arg0,  T2 arg1, ref T3 arg2, ref T4 arg3)
         {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public void InvokeOut(T1 arg0, T2 arg1, out T3 arg2, out T4 arg3)
+        {
+            arg2 = default;
+            arg3 = default;
             Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
         }
         
@@ -642,8 +773,24 @@ namespace ReClosure
             Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
         }
         
+        public void InvokeOut(out T1 arg0, out T2 arg1, out T3 arg2, T4 arg3)
+        {
+            arg0 = default;
+            arg1 = default;
+            arg2 = default;
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
         public void Invoke(ref T1 arg0, ref T2 arg1, T3 arg2, ref T4 arg3)
         {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public void InvokeOut(out T1 arg0, out T2 arg1, T3 arg2, out T4 arg3)
+        {
+            arg0 = default;
+            arg1 = default;
+            arg3 = default;
             Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
         }
         
@@ -652,8 +799,24 @@ namespace ReClosure
             Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
         }
         
+        public void InvokeOut(out T1 arg0, T2 arg1, out T3 arg2, out T4 arg3)
+        {
+            arg0 = default;
+            arg2 = default;
+            arg3 = default;
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
         public void Invoke(T1 arg0, ref T2 arg1, ref T3 arg2, ref T4 arg3)
         {
+            Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public void InvokeOut(T1 arg0, out T2 arg1, out T3 arg2, out T4 arg3)
+        {
+            arg1 = default;
+            arg2 = default;
+            arg3 = default;
             Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
         }
         
@@ -692,6 +855,15 @@ namespace ReClosure
                     _sparseIndex = 0;
                 }
             }
+        }
+        
+        public void InvokeOut(out T1 arg1, out T2 arg2, out T3 arg3, out T4 arg4)
+        {
+            arg1 = default;
+            arg2 = default;
+            arg3 = default;
+            arg4 = default;
+            Invoke(ref arg1, ref arg2, ref arg3, ref arg4);
         }
     }
 }

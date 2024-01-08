@@ -28,8 +28,20 @@ namespace ReClosure
             return Invoke<T>(ref arg0, ref arg1);
         }
         
+        public T InvokeOut<T>(out TInput0 arg0, TInput1 arg1)
+        {
+            arg0 = default;
+            return Invoke<T>(ref arg0, ref arg1);
+        }
+        
         public T Invoke<T>(TInput0 arg0, ref TInput1 arg1)
         {
+            return Invoke<T>(ref arg0, ref arg1);
+        }
+        
+        public T InvokeOut<T>(TInput0 arg0, out TInput1 arg1)
+        {
+            arg1 = default;
             return Invoke<T>(ref arg0, ref arg1);
         }
         
@@ -43,6 +55,13 @@ namespace ReClosure
 
             return default;
         }
+        
+        public T InvokeOut<T>(out TInput0 arg0, out TInput1 arg1)
+        {
+            arg0 = default;
+            arg1 = default;
+            return Invoke<T>(ref arg0, ref arg1);
+        }
 
         public void Invoke(TInput0 arg0, TInput1 arg1)
         {
@@ -54,10 +73,23 @@ namespace ReClosure
             Invoke(ref arg0, ref arg1);
         }
         
+        public void InvokeOut(out TInput0 arg0, TInput1 arg1)
+        {
+            arg0 = default;
+            Invoke(ref arg0, ref arg1);
+        }
+        
         public void Invoke(TInput0 arg0, ref TInput1 arg1)
         {
             Invoke(ref arg0, ref arg1);
         }
+        
+        public void InvokeOut(TInput0 arg0, out TInput1 arg1)
+        {
+            arg1 = default;
+            Invoke(ref arg0, ref arg1);
+        }
+        
         
         public void Invoke(ref TInput0 arg0, ref  TInput1 arg1)
         {
@@ -65,6 +97,13 @@ namespace ReClosure
             {
                 _wrapper(ref _context, ref arg0, ref arg1);
             }
+        }
+        
+        public void InvokeOut(out TInput0 arg0, out TInput1 arg1)
+        {
+            arg0 = default;
+            arg1 = default;
+            Invoke(ref arg0, ref arg1);
         }
 
         public static FuncClosure<TInput0, TInput1> Create<TResult>(Func<TInput0, TInput1, TResult> func)

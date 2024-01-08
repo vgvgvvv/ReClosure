@@ -38,8 +38,20 @@ namespace ReClosure
             Invoke(ref arg, ref arg1);
         }
         
+        public void InvokeOut(out TInput0 arg, TInput1 arg1)
+        {
+            arg = default;
+            Invoke(ref arg, ref arg1);
+        }
+        
         public void Invoke(TInput0 arg, ref TInput1 arg1)
         {
+            Invoke(ref arg, ref arg1);
+        }
+        
+        public void InvokeOut(TInput0 arg, out TInput1 arg1)
+        {
+            arg1 = default;
             Invoke(ref arg, ref arg1);
         }
         
@@ -47,6 +59,13 @@ namespace ReClosure
         {
             if (_wrapper != null) 
                 _wrapper(ref _context, ref arg, ref arg1);
+        }
+        
+        public void InvokeOut(out TInput0 arg, out TInput1 arg1)
+        {
+            arg = default;
+            arg1 = default;
+            Invoke(ref arg, ref arg1);
         }
 
         public static ActionClosure<TInput0, TInput1> Create(Action<TInput0, TInput1> action)

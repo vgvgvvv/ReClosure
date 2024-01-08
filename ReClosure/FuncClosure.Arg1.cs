@@ -40,6 +40,12 @@ namespace ReClosure
 
             return default;
         }
+        
+        public T InvokeOut<T>(out TInput0 arg0)
+        {
+            arg0 = default;
+            return Invoke<T>(ref arg0);
+        }
 
         public void Invoke(TInput0 arg0)
         {
@@ -55,6 +61,12 @@ namespace ReClosure
             {
                 _wrapper(ref _context, ref arg0);
             }
+        }
+        
+        public void InvokeOut(out TInput0 arg0)
+        {
+            arg0 = default;
+            Invoke(ref arg0);
         }
 
         public static FuncClosure<TInput0> Create<TResult>(Func<TInput0, TResult> func)

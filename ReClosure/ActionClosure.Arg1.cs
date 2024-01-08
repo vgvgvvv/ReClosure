@@ -33,6 +33,12 @@ namespace ReClosure
             if (_wrapper != null) 
                 _wrapper(ref _context, ref arg);
         }
+
+        public void InvokeOut(out TInput0 arg)
+        {
+            arg = default;
+            Invoke(arg);
+        }
         
         public void Invoke(ref TInput0 arg)
         {
