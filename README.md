@@ -1,5 +1,6 @@
 # ReClosure
 yet another non-gc closure library
+based on https://github.com/lujian101/GCFreeClosure
 
 # Usage
 ```C#
