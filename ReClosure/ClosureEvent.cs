@@ -42,6 +42,18 @@ namespace ReClosure
             lhs.Remove(rhs);
             return lhs;
         }
+        
+        public static ClosureEvent operator +(ClosureEvent lhs, Action rhs)
+        {
+            lhs.Add(rhs);
+            return lhs;
+        }
+
+        public static ClosureEvent operator -(ClosureEvent lhs, Action rhs)
+        {
+            lhs.Remove(rhs);
+            return lhs;
+        }
 
         void Add(ActionClosure closure)
         {
@@ -118,6 +130,18 @@ namespace ReClosure
         }
 
         public static ClosureEvent<T> operator -(ClosureEvent<T> lhs, ActionClosure<T> rhs)
+        {
+            lhs.Remove(rhs);
+            return lhs;
+        }
+        
+        public static ClosureEvent<T> operator +(ClosureEvent<T> lhs, Action<T> rhs)
+        {
+            lhs.Add(rhs);
+            return lhs;
+        }
+
+        public static ClosureEvent<T> operator -(ClosureEvent<T> lhs, Action<T> rhs)
         {
             lhs.Remove(rhs);
             return lhs;
@@ -208,6 +232,18 @@ namespace ReClosure
             lhs.Remove(rhs);
             return lhs;
         }
+        
+        public static ClosureEvent<T1, T2> operator +(ClosureEvent<T1, T2> lhs, Action<T1, T2> rhs)
+        {
+            lhs.Add(rhs);
+            return lhs;
+        }
+
+        public static ClosureEvent<T1, T2> operator -(ClosureEvent<T1, T2> lhs, Action<T1, T2> rhs)
+        {
+            lhs.Remove(rhs);
+            return lhs;
+        }
 
         public static implicit operator bool(ClosureEvent<T1, T2> exists)
         {
@@ -290,6 +326,18 @@ namespace ReClosure
         }
 
         public static ClosureEvent<T1, T2, T3> operator -(ClosureEvent<T1, T2, T3> lhs, ActionClosure<T1, T2, T3> rhs)
+        {
+            lhs.Remove(rhs);
+            return lhs;
+        }
+        
+        public static ClosureEvent<T1, T2, T3> operator +(ClosureEvent<T1, T2, T3> lhs, Action<T1, T2, T3> rhs)
+        {
+            lhs.Add(rhs);
+            return lhs;
+        }
+
+        public static ClosureEvent<T1, T2, T3> operator -(ClosureEvent<T1, T2, T3> lhs, Action<T1, T2, T3> rhs)
         {
             lhs.Remove(rhs);
             return lhs;
@@ -390,6 +438,18 @@ namespace ReClosure
         }
 
         public static ClosureEvent<T1, T2, T3, T4> operator -(ClosureEvent<T1, T2, T3, T4> lhs, ActionClosure<T1, T2, T3, T4> rhs)
+        {
+            lhs.Remove(rhs);
+            return lhs;
+        }
+        
+        public static ClosureEvent<T1, T2, T3, T4> operator +(ClosureEvent<T1, T2, T3, T4> lhs, Action<T1, T2, T3, T4> rhs)
+        {
+            lhs.Add(rhs);
+            return lhs;
+        }
+
+        public static ClosureEvent<T1, T2, T3, T4> operator -(ClosureEvent<T1, T2, T3, T4> lhs, Action<T1, T2, T3, T4> rhs)
         {
             lhs.Remove(rhs);
             return lhs;
