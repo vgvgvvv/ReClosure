@@ -20,6 +20,33 @@ namespace ReClosure
     //    }
     //}
 
+    internal class ObjectPool<T> where T : class, new()
+    {
+        private static Queue<T> objects = new Queue<T>();
+        public static void Recycle(T obj)
+        {
+            if (obj == null)
+            {
+                return;
+            }
+            lock (objects)
+            {
+                objects.Enqueue(obj);
+            }
+        }
+        public static T Get()
+        {
+            if (objects.Count <= 0)
+            {
+                return new T();
+            }
+            lock (objects)
+            {
+                return objects.Dequeue();
+            }
+        }
+    }
+
     public struct ClosureEvent
     {
         private List<ActionClosure> _calleeList;
@@ -57,27 +84,30 @@ namespace ReClosure
 
         void Add(ActionClosure closure)
         {
-            _calleeList = _calleeList ?? new List<ActionClosure>(1);
+            _calleeList = _calleeList ?? ObjectPool<List<ActionClosure>>.Get();
             _calleeList.Add(closure);
         }
 
         void Remove(ActionClosure closure)
         {
             var list = _calleeList;
-            if (list != null)
+            if (list == null) return;
+            if (_depth != 0)
             {
-                if (_depth != 0)
+                for (int i = 0, count = list.Count; i < count; ++i)
                 {
-                    for (int i = 0, count = list.Count; i < count; ++i)
-                        if (list[i].Equals(closure))
-                        {
-                            list[i].Reset();
-                            if (i <= _sparseIndex) _sparseIndex = i + 1;
-                        }
+                    if (!list[i].Equals(closure)) continue;
+                    list[i].Reset();
+                    if (i <= _sparseIndex) _sparseIndex = i + 1;
                 }
-                else
+            }
+            else
+            {
+                list.Remove(closure);
+                if (_calleeList.Count == 0)
                 {
-                    list.Remove(closure);
+                    ObjectPool<List<ActionClosure>>.Recycle(_calleeList);
+                    _calleeList = null;
                 }
             }
         }
@@ -90,8 +120,10 @@ namespace ReClosure
             {
                 ++_depth;
                 foreach (var callback in list)
+                {
                     if (callback.IsValid())
                         callback.Invoke();
+                }
             }
             finally
             {
@@ -100,20 +132,39 @@ namespace ReClosure
                 {
                     var count = list.Count;
                     for (var i = _sparseIndex - 1; i < count; ++i)
-                        if (list[i].IsValid())
+                    {
+                        if (!list[i].IsValid()) continue;
+                        var newCount = i++;
+                        for (; i < count; ++i)
                         {
-                            var newCount = i++;
-                            for (; i < count; ++i)
-                                if (list[i].IsValid())
-                                    list[newCount++] = list[i];
-                            var removeCount = count - newCount;
-                            list.RemoveRange(newCount, removeCount);
-                            break;
+                            if (!list[i].IsValid()) continue;
+                            list[newCount++] = list[i];
                         }
 
+                        var removeCount = count - newCount;
+                        list.RemoveRange(newCount, removeCount);
+                        break;
+                    }
+                    if (_calleeList.Count == 0)
+                    {
+                        ObjectPool<List<ActionClosure>>.Recycle(_calleeList);
+                        _calleeList = null;
+                    }
                     _sparseIndex = 0;
                 }
             }
+        }
+
+        public bool IsEmpty()
+        {
+            return _calleeList == null || _calleeList.Count == 0;
+        }
+
+        public void Reset()
+        {
+            _calleeList.Clear();
+            ObjectPool<List<ActionClosure>>.Recycle(_calleeList);
+            _calleeList = null;
         }
     }
 
@@ -166,7 +217,7 @@ namespace ReClosure
 
         public void Add(ActionClosure<T> closure)
         {
-            _calleeList = _calleeList ?? new List<ActionClosure<T>>(1);
+            _calleeList = _calleeList ?? ObjectPool<List<ActionClosure<T>>>.Get();
             _calleeList.Add(closure);
         }
 
@@ -187,6 +238,11 @@ namespace ReClosure
                 else
                 {
                     list.Remove(closure);
+                    if (_calleeList.Count == 0)
+                    {
+                        ObjectPool<List<ActionClosure<T>>>.Recycle(_calleeList);
+                        _calleeList = null;
+                    }
                 }
             }
         }
@@ -221,20 +277,37 @@ namespace ReClosure
                 {
                     var count = list.Count;
                     for (var i = _sparseIndex - 1; i < count; ++i)
-                        if (list[i].IsValid())
-                        {
-                            var newCount = i++;
-                            for (; i < count; ++i)
-                                if (list[i].IsValid())
-                                    list[newCount++] = list[i];
-                            var removeCount = count - newCount;
-                            list.RemoveRange(newCount, removeCount);
-                            break;
-                        }
+                    {
+                        if (!list[i].IsValid()) continue;
+                        var newCount = i++;
+                        for (; i < count; ++i)
+                            if (list[i].IsValid())
+                                list[newCount++] = list[i];
+                        var removeCount = count - newCount;
+                        list.RemoveRange(newCount, removeCount);
+                        break;
+                    }
 
+                    if (_calleeList.Count == 0)
+                    {
+                        ObjectPool<List<ActionClosure<T>>>.Recycle(_calleeList);
+                        _calleeList = null;
+                    }
                     _sparseIndex = 0;
                 }
             }
+        }
+
+        public bool IsEmpty()
+        {
+            return _calleeList == null || _calleeList.Count == 0;
+        }
+
+        public void Reset()
+        {
+            _calleeList.Clear();
+            ObjectPool<List<ActionClosure<T>>>.Recycle(_calleeList);
+            _calleeList = null;
         }
     }
 
@@ -288,7 +361,7 @@ namespace ReClosure
 
         public void Add(ActionClosure<T1, T2> closure)
         {
-            _calleeList = _calleeList ?? new List<ActionClosure<T1, T2>>(1);
+            _calleeList = _calleeList ?? ObjectPool<List<ActionClosure<T1, T2>>>.Get();
             _calleeList.Add(closure);
         }
 
@@ -308,6 +381,11 @@ namespace ReClosure
             else
             {
                 list.Remove(closure);
+                if (_calleeList.Count == 0)
+                {
+                    ObjectPool<List<ActionClosure<T1, T2>>>.Recycle(_calleeList);
+                    _calleeList = null;
+                }
             }
         }
 
@@ -370,6 +448,11 @@ namespace ReClosure
                         }
                     }
 
+                    if (_calleeList.Count == 0)
+                    {
+                        ObjectPool<List<ActionClosure<T1, T2>>>.Recycle(_calleeList);
+                        _calleeList = null;
+                    }
                     _sparseIndex = 0;
                 }
             }
@@ -380,6 +463,18 @@ namespace ReClosure
             arg1 = default;
             arg2 = default;
             Invoke(ref arg1, ref arg2);
+        }
+
+        public bool IsEmpty()
+        {
+            return _calleeList == null || _calleeList.Count == 0;
+        }
+
+        public void Reset()
+        {
+            _calleeList.Clear();
+            ObjectPool<List<ActionClosure<T1, T2>>>.Recycle(_calleeList);
+            _calleeList = null;
         }
     }
 
@@ -432,7 +527,7 @@ namespace ReClosure
 
         public void Add(ActionClosure<T1, T2, T3> closure)
         {
-            _calleeList = _calleeList ?? new List<ActionClosure<T1, T2, T3>>(1);
+            _calleeList = _calleeList ?? ObjectPool<List<ActionClosure<T1, T2, T3>>>.Get();
             _calleeList.Add(closure);
         }
 
@@ -453,6 +548,11 @@ namespace ReClosure
                 else
                 {
                     list.Remove(closure);
+                    if (_calleeList.Count == 0)
+                    {
+                        ObjectPool<List<ActionClosure<T1, T2, T3>>>.Recycle(_calleeList);
+                        _calleeList = null;
+                    }
                 }
             }
         }
@@ -561,6 +661,12 @@ namespace ReClosure
                         break;
                     }
 
+                    if (_calleeList.Count == 0)
+                    {
+                        ObjectPool<List<ActionClosure<T1, T2, T3>>>.Recycle(_calleeList);
+                        _calleeList = null;
+                    }
+
                     _sparseIndex = 0;
                 }
             }
@@ -572,6 +678,18 @@ namespace ReClosure
             arg2 = default;
             arg3 = default;
             Invoke(ref arg1, ref arg2, ref arg3);
+        }
+
+        public bool IsEmpty()
+        {
+            return _calleeList == null || _calleeList.Count == 0;
+        }
+
+        public void Reset()
+        {
+            _calleeList.Clear();
+            ObjectPool<List<ActionClosure<T1, T2, T3>>>.Recycle(_calleeList);
+            _calleeList = null;
         }
     }
 
@@ -624,7 +742,7 @@ namespace ReClosure
 
         public void Add(ActionClosure<T1, T2, T3, T4> closure)
         {
-            _calleeList = _calleeList ?? new List<ActionClosure<T1, T2, T3, T4>>(1);
+            _calleeList = _calleeList ?? ObjectPool<List<ActionClosure<T1, T2, T3, T4>>>.Get();
             _calleeList.Add(closure);
         }
 
@@ -644,6 +762,11 @@ namespace ReClosure
             else
             {
                 list.Remove(closure);
+                if (_calleeList.Count == 0)
+                {
+                    ObjectPool<List<ActionClosure<T1, T2, T3, T4>>>.Recycle(_calleeList);
+                    _calleeList = null;
+                }
             }
         }
 
@@ -852,11 +975,17 @@ namespace ReClosure
                         break;
                     }
 
+                    if(_calleeList.Count == 0)
+                    {
+                        ObjectPool<List<ActionClosure<T1, T2, T3, T4>>>.Recycle(_calleeList);
+                        _calleeList = null;
+                    }
+
                     _sparseIndex = 0;
                 }
             }
         }
-        
+
         public void InvokeOut(out T1 arg1, out T2 arg2, out T3 arg3, out T4 arg4)
         {
             arg1 = default;
@@ -864,6 +993,18 @@ namespace ReClosure
             arg3 = default;
             arg4 = default;
             Invoke(ref arg1, ref arg2, ref arg3, ref arg4);
+        }
+
+        public bool IsEmpty()
+        {
+            return _calleeList == null || _calleeList.Count == 0;
+        }
+
+        public void Reset()
+        {
+            _calleeList.Clear();
+            ObjectPool<List<ActionClosure<T1, T2, T3, T4>>>.Recycle(_calleeList);
+            _calleeList = null;
         }
     }
 }
