@@ -162,9 +162,12 @@ namespace ReClosure
 
         public void Reset()
         {
-            _calleeList.Clear();
-            ObjectPool<List<ActionClosure>>.Recycle(_calleeList);
-            _calleeList = null;
+            if (_calleeList != null)
+            {
+                _calleeList.Clear();
+                ObjectPool<List<ActionClosure>>.Recycle(_calleeList);
+                _calleeList = null;
+            }
         }
     }
 
@@ -305,9 +308,12 @@ namespace ReClosure
 
         public void Reset()
         {
-            _calleeList.Clear();
-            ObjectPool<List<ActionClosure<T>>>.Recycle(_calleeList);
-            _calleeList = null;
+            if (_calleeList != null)
+            {
+                _calleeList.Clear();
+                ObjectPool<List<ActionClosure<T>>>.Recycle(_calleeList);
+                _calleeList = null;
+            }
         }
     }
 
@@ -472,9 +478,12 @@ namespace ReClosure
 
         public void Reset()
         {
-            _calleeList.Clear();
-            ObjectPool<List<ActionClosure<T1, T2>>>.Recycle(_calleeList);
-            _calleeList = null;
+            if (_calleeList != null)
+            {
+                _calleeList.Clear();
+                ObjectPool<List<ActionClosure<T1, T2>>>.Recycle(_calleeList);
+                _calleeList = null;
+            }
         }
     }
 
@@ -687,9 +696,12 @@ namespace ReClosure
 
         public void Reset()
         {
-            _calleeList.Clear();
-            ObjectPool<List<ActionClosure<T1, T2, T3>>>.Recycle(_calleeList);
-            _calleeList = null;
+            if (_calleeList != null)
+            {
+                _calleeList.Clear();
+                ObjectPool<List<ActionClosure<T1, T2, T3>>>.Recycle(_calleeList);
+                _calleeList = null;
+            }
         }
     }
 
@@ -1002,9 +1014,12 @@ namespace ReClosure
 
         public void Reset()
         {
-            _calleeList.Clear();
-            ObjectPool<List<ActionClosure<T1, T2, T3, T4>>>.Recycle(_calleeList);
-            _calleeList = null;
+            if (_calleeList != null)
+            {
+                _calleeList.Clear();
+                ObjectPool<List<ActionClosure<T1, T2, T3, T4>>>.Recycle(_calleeList);
+                _calleeList = null;
+            }
         }
     }
 }
