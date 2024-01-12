@@ -513,6 +513,242 @@ namespace ReClosure
             }
         }
     }
+
+    public struct FuncClosureR<TInput0, TInput1, TInput2, TInput3, TReturn> 
+        : IEquatable<FuncClosureR<TInput0, TInput1, TInput2, TInput3, TReturn>>
+    {
+        private FuncClosure<TInput0, TInput1, TInput2, TInput3> _closure;
+
+        public bool IsValid()
+        {
+            return _closure.IsValid();
+        }
+        
+        public void Reset()
+        {
+            _closure.Reset();
+        }
+        
+        public TReturn Invoke(TInput0 arg0, TInput1 arg1, TInput2 arg2, TInput3 arg3)
+        {
+            return Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+
+        public TReturn Invoke(ref TInput0 arg0, TInput1 arg1, TInput2 arg2, TInput3 arg3)
+        {
+            return Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public TReturn InvokeOut(out TInput0 arg0, TInput1 arg1, TInput2 arg2, TInput3 arg3)
+        {
+            arg0 = default;
+            return Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public TReturn Invoke(TInput0 arg0, ref TInput1 arg1, TInput2 arg2, TInput3 arg3)
+        {
+            return Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public TReturn InvokeOut(TInput0 arg0, out TInput1 arg1, TInput2 arg2, TInput3 arg3)
+        {
+            arg1 = default;
+            return Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public TReturn Invoke(TInput0 arg0, TInput1 arg1, ref TInput2 arg2, TInput3 arg3)
+        {
+            return Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public TReturn InvokeOut(TInput0 arg0, TInput1 arg1, out TInput2 arg2, TInput3 arg3)
+        {
+            arg2 = default;
+            return Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public TReturn Invoke(TInput0 arg0, TInput1 arg1, TInput2 arg2, ref TInput3 arg3)
+        {
+            return Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+
+        public TReturn InvokeOut(TInput0 arg0, TInput1 arg1, TInput2 arg2, out TInput3 arg3)
+        {
+            arg3 = default;
+            return Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public TReturn Invoke(ref TInput0 arg0, ref TInput1 arg1, TInput2 arg2, TInput3 arg3)
+        {
+            return Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public TReturn InvokeOut(out TInput0 arg0, out TInput1 arg1, TInput2 arg2, TInput3 arg3)
+        {
+            arg0 = default;
+            arg1 = default;
+            return Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public TReturn Invoke(ref TInput0 arg0, TInput1 arg1, ref TInput2 arg2, TInput3 arg3)
+        {
+            return Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public TReturn InvokeOut(out TInput0 arg0, TInput1 arg1, out TInput2 arg2, TInput3 arg3)
+        {
+            arg0 = default;
+            arg2 = default;
+            return Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+
+        public TReturn Invoke(ref TInput0 arg0, TInput1 arg1, TInput2 arg2, ref TInput3 arg3)
+        {
+            return Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public TReturn InvokeOut(out TInput0 arg0, TInput1 arg1, TInput2 arg2, out TInput3 arg3)
+        {
+            arg0 = default;
+            arg3 = default;
+            return Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public TReturn Invoke(TInput0 arg0, ref TInput1 arg1, ref TInput2 arg2, TInput3 arg3)
+        {
+            return Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public TReturn InvokeOut(TInput0 arg0, out TInput1 arg1, out TInput2 arg2, TInput3 arg3)
+        {
+            arg1 = default;
+            arg2 = default;
+            return Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public TReturn Invoke(TInput0 arg0, ref TInput1 arg1, TInput2 arg2, ref TInput3 arg3)
+        {
+            return Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public TReturn InvokeOut(TInput0 arg0, out TInput1 arg1, TInput2 arg2, out TInput3 arg3)
+        {
+            arg1 = default;
+            arg3 = default;
+            return Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public TReturn Invoke(TInput0 arg0, TInput1 arg1, ref TInput2 arg2, ref TInput3 arg3)
+        {
+            return Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public TReturn InvokeOut(TInput0 arg0, TInput1 arg1, out TInput2 arg2, out TInput3 arg3)
+        {
+            arg2 = default;
+            arg3 = default;
+            return Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public TReturn Invoke(ref TInput0 arg0, ref TInput1 arg1, ref TInput2 arg2, TInput3 arg3)
+        {
+            return Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public TReturn InvokeOut(out TInput0 arg0, out TInput1 arg1, out TInput2 arg2, TInput3 arg3)
+        {
+            arg0 = default;
+            arg1 = default;
+            arg2 = default;
+            return Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public TReturn Invoke(ref TInput0 arg0, ref TInput1 arg1, TInput2 arg2, ref TInput3 arg3)
+        {
+            return Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public TReturn InvokeOut(out TInput0 arg0, out TInput1 arg1, TInput2 arg2, out TInput3 arg3)
+        {
+            arg0 = default;
+            arg1 = default;
+            arg3 = default;
+            return Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public TReturn Invoke(ref TInput0 arg0, TInput1 arg1, ref TInput2 arg2, ref TInput3 arg3)
+        {
+            return Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public TReturn InvokeOut(out TInput0 arg0, TInput1 arg1, out TInput2 arg2, out TInput3 arg3)
+        {
+            arg0 = default;
+            arg2 = default;
+            arg3 = default;
+            return Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public TReturn Invoke(TInput0 arg0, ref TInput1 arg1, ref TInput2 arg2, ref TInput3 arg3)
+        {
+            return Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public TReturn InvokeOut(TInput0 arg0, out TInput1 arg1, out TInput2 arg2, out TInput3 arg3)
+        {
+            arg1 = default;
+            arg2 = default;
+            arg3 = default;
+            return Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public TReturn Invoke(ref TInput0 arg0, ref TInput1 arg1, ref TInput2 arg2, ref TInput3 arg3)
+        {
+            return _closure.Invoke<TReturn>(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+        
+        public TReturn InvokeOut(out TInput0 arg0, out TInput1 arg1, out TInput2 arg2, out TInput3 arg3)
+        {
+            arg0 = default;
+            arg1 = default;
+            arg2 = default;
+            arg3 = default;
+            return Invoke(ref arg0, ref arg1, ref arg2, ref arg3);
+        }
+
+        public static FuncClosureR<TInput0, TInput1, TInput2, TInput3, TReturn> Create(
+            Func<TInput0, TInput1, TInput2, TInput3, TReturn> func)
+        {
+            return new FuncClosureR<TInput0, TInput1, TInput2, TInput3, TReturn>()
+            {
+                _closure = FuncClosure<TInput0, TInput1, TInput2, TInput3>.Create(func)
+            };
+        }
+        
+        public static FuncClosureR<TInput0, TInput1, TInput2, TInput3, TReturn> Create(
+            FuncByRef<TInput0, TInput1, TInput2, TInput3, TReturn> func)
+        {
+            return new FuncClosureR<TInput0, TInput1, TInput2, TInput3, TReturn>()
+            {
+                _closure = FuncClosure<TInput0, TInput1, TInput2, TInput3>.Create(func)
+            };
+        }
+        
+        public bool Equals(FuncClosureR<TInput0, TInput1, TInput2, TInput3, TReturn> other)
+        {
+            return _closure.Equals(other._closure);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is FuncClosureR<TInput0, TInput1, TInput2, TInput3, TReturn> other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return _closure.GetHashCode();
+        }
+    }
 }
 
 

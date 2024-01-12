@@ -402,6 +402,115 @@ namespace ReClosure
             }
         }
     }
+
+    public struct FuncClosureR<TInput0, TReturn> : IEquatable<FuncClosureR<TInput0, TReturn>>
+    {
+        private FuncClosure<TInput0> _closure;
+        
+        public bool IsValid()
+        {
+            return _closure.IsValid();
+        }
+        
+        public void Reset()
+        {
+            _closure.Reset();
+        }
+        
+        public TReturn Invoke(TInput0 arg0)
+        {
+            return _closure.Invoke<TReturn>(ref arg0);
+        }
+        
+        public TReturn Invoke(ref TInput0 arg0)
+        {
+            return _closure.Invoke<TReturn>(ref arg0);
+        }
+        
+        public TReturn InvokeOut(out TInput0 arg0)
+        {
+            return _closure.InvokeOut<TReturn>(out arg0);
+        }
+
+        public static FuncClosureR<TInput0, TReturn> Create(Func<TInput0, TReturn> func)
+        {
+            return new FuncClosureR<TInput0, TReturn>()
+            {
+                _closure = FuncClosure<TInput0>.Create(func)
+            };
+        }
+
+        public static FuncClosureR<TInput0, TReturn> Create(FuncByRef<TInput0, TReturn> func)
+        {
+            return new FuncClosureR<TInput0, TReturn>()
+            {
+                _closure = FuncClosure<TInput0>.Create(func)
+            };
+        }
+        
+        public static FuncClosureR<TInput0, TReturn> Create<T>(Func<T, TInput0, TReturn> func, T ctx)
+        {
+            return new FuncClosureR<TInput0, TReturn>()
+            {
+                _closure = FuncClosure<TInput0>.Create(func, ctx)
+            };
+        }
+        
+        public static FuncClosureR<TInput0, TReturn> Create<T>(FuncByRef<T, TInput0, TReturn> func, T ctx)
+        {
+            return new FuncClosureR<TInput0, TReturn>()
+            {
+                _closure = FuncClosure<TInput0>.Create(func, ctx)
+            };
+        }
+        
+        public static FuncClosureR<TInput0, TReturn> Create<T0, T1>(Func<T0, T1, TInput0, TReturn> func, T0 ctx0, T1 ctx1)
+        {
+            return new FuncClosureR<TInput0, TReturn>()
+            {
+                _closure = FuncClosure<TInput0>.Create(func, ctx0, ctx1)
+            };
+        }
+        
+        public static FuncClosureR<TInput0, TReturn> Create<T0, T1>(FuncByRef<T0, T1, TInput0, TReturn> func, T0 ctx0, T1 ctx1)
+        {
+            return new FuncClosureR<TInput0, TReturn>()
+            {
+                _closure = FuncClosure<TInput0>.Create(func, ctx0, ctx1)
+            };
+        }
+        
+        public static FuncClosureR<TInput0, TReturn> Create<T0, T1, T2>(Func<T0, T1, T2, TInput0, TReturn> func, T0 ctx0, T1 ctx1, T2 ctx2)
+        {
+            return new FuncClosureR<TInput0, TReturn>()
+            {
+                _closure = FuncClosure<TInput0>.Create(func, ctx0, ctx1, ctx2)
+            };
+        }
+        
+        public static FuncClosureR<TInput0, TReturn> Create<T0, T1, T2>(FuncByRef<T0, T1, T2, TInput0, TReturn> func, T0 ctx0, T1 ctx1, T2 ctx2)
+        {
+            return new FuncClosureR<TInput0, TReturn>()
+            {
+                _closure = FuncClosure<TInput0>.Create(func, ctx0, ctx1, ctx2)
+            };
+        }
+
+        public bool Equals(FuncClosureR<TInput0, TReturn> other)
+        {
+            return _closure.Equals(other._closure);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is FuncClosureR<TInput0, TReturn> other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return _closure.GetHashCode();
+        }
+    }
 }
 
 

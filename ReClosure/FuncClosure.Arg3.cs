@@ -368,6 +368,156 @@ namespace ReClosure
             }
         }
     }
+
+    public struct FuncClosureR<TInput0, TInput1, TInput2, TReturn> 
+        : IEquatable<FuncClosureR<TInput0, TInput1, TInput2, TReturn>>
+    {
+        private FuncClosure<TInput0, TInput1, TInput2> _closure;
+
+        public bool IsValid()
+        {
+            return _closure.IsValid();
+        }
+        
+        public void Reset()
+        {
+            _closure.Reset();
+        }
+        
+        public TReturn Invoke(TInput0 arg0, TInput1 arg1, TInput2 arg2)
+        {
+            return Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public TReturn Invoke(ref TInput0 arg0, TInput1 arg1, TInput2 arg2)
+        {
+            return Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public TReturn InvokeOut(out TInput0 arg0, TInput1 arg1, TInput2 arg2)
+        {
+            arg0 = default;
+            return Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public TReturn Invoke(TInput0 arg0, ref TInput1 arg1, TInput2 arg2)
+        {
+            return Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public TReturn InvokeOut(TInput0 arg0, out TInput1 arg1, TInput2 arg2)
+        {
+            arg1 = default;
+            return Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public TReturn Invoke(TInput0 arg0, TInput1 arg1, ref TInput2 arg2)
+        {
+            return Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public TReturn InvokeOut(TInput0 arg0, TInput1 arg1, out TInput2 arg2)
+        {
+            arg2 = default;
+            return Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public TReturn Invoke(ref TInput0 arg0, ref TInput1 arg1, TInput2 arg2)
+        {
+            return Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public TReturn InvokeOut(out TInput0 arg0, out TInput1 arg1, TInput2 arg2)
+        {
+            arg0 = default;
+            arg1 = default;
+            return Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public TReturn Invoke(ref TInput0 arg0,  TInput1 arg1, ref TInput2 arg2)
+        {
+            return Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public TReturn InvokeOut(out TInput0 arg0, TInput1 arg1, out TInput2 arg2)
+        {
+            arg0 = default;
+            arg2 = default;
+            return Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public TReturn Invoke(TInput0 arg0, ref TInput1 arg1, ref TInput2 arg2)
+        {
+            return Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public TReturn InvokeOut(TInput0 arg0, out TInput1 arg1, out TInput2 arg2)
+        {
+            arg1 = default;
+            arg2 = default;
+            return Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public TReturn Invoke(ref TInput0 arg0, ref TInput1 arg1, ref TInput2 arg2)
+        {
+            return _closure.Invoke<TReturn>(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public TReturn InvokeOut(out TInput0 arg0, out TInput1 arg1, out TInput2 arg2)
+        {
+            arg0 = default;
+            arg1 = default;
+            arg2 = default;
+            return Invoke(ref arg0, ref arg1, ref arg2);
+        }
+        
+        public static FuncClosureR<TInput0, TInput1, TInput2, TReturn> Create(Func<TInput0, TInput1, TInput2, TReturn> func)
+        {
+            return new FuncClosureR<TInput0, TInput1, TInput2, TReturn>
+            {
+                _closure = FuncClosure<TInput0, TInput1, TInput2>.Create(func)
+            };
+        }
+        
+        public static FuncClosureR<TInput0, TInput1, TInput2, TReturn> Create(FuncByRef<TInput0, TInput1, TInput2, TReturn> func)
+        {
+            return new FuncClosureR<TInput0, TInput1, TInput2, TReturn>
+            {
+                _closure = FuncClosure<TInput0, TInput1, TInput2>.Create(func)
+            };
+        }
+        
+        public static FuncClosureR<TInput0, TInput1, TInput2, TReturn> Create<T>(Func<T, TInput0, TInput1, TInput2, TReturn> func, T ctx)
+        {
+            return new FuncClosureR<TInput0, TInput1, TInput2, TReturn>
+            {
+                _closure = FuncClosure<TInput0, TInput1, TInput2>.Create(func, ctx)
+            };
+        }
+        
+        public static FuncClosureR<TInput0, TInput1, TInput2, TReturn> Create<T>(FuncByRef<T, TInput0, TInput1, TInput2, TReturn> func, T ctx)
+        {
+            return new FuncClosureR<TInput0, TInput1, TInput2, TReturn>
+            {
+                _closure = FuncClosure<TInput0, TInput1, TInput2>.Create(func, ctx)
+            };
+        }
+        
+        public bool Equals(FuncClosureR<TInput0, TInput1, TInput2, TReturn> other)
+        {
+            return _closure.Equals(other._closure);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is FuncClosureR<TInput0, TInput1, TInput2, TReturn> other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return _closure.GetHashCode();
+        }
+    }
 }
 
 

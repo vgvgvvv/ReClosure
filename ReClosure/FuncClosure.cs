@@ -269,6 +269,82 @@ namespace ReClosure
             }
         }
     }
+
+    public struct FuncClosureR<TReturn> : IEquatable<FuncClosureR<TReturn>>
+    {
+        private FuncClosure _closure;
+
+        public bool IsValid()
+        {
+            return _closure.IsValid();
+        }
+        
+        public void Reset()
+        {
+           _closure.Reset();
+        }
+
+        public TReturn Invoke()
+        {
+            return _closure.Invoke<TReturn>();
+        }
+
+        public static FuncClosureR<TReturn> Create<TResult>(Func<TResult> func)
+        {
+            return new FuncClosureR<TReturn>
+            {
+                _closure = FuncClosure.Create(func)
+            };
+        }
+
+        public static FuncClosureR<TReturn> Create<T, TResult>(Func<T, TResult> func, T ctx)
+        {
+            return new FuncClosureR<TReturn>()
+            {
+                _closure = FuncClosure.Create(func, ctx)
+            };
+        }
+
+        public static FuncClosureR<TReturn> Create<T0, T1, TResult>(Func<T0, T1, TResult> func, T0 ctx0, T1 ctx1)
+        {
+            return new FuncClosureR<TReturn>()
+            {
+                _closure = FuncClosure.Create(func, ctx0, ctx1)
+            };
+        }
+
+        public static FuncClosureR<TReturn> Create<T0, T1, T2, TResult>(Func<T0, T1, T2, TResult> func, T0 ctx0, T1 ctx1, T2 ctx2)
+        {
+            return new FuncClosureR<TReturn>()
+            {
+                _closure = FuncClosure.Create(func, ctx0, ctx1, ctx2)
+            };
+        }
+
+        public static FuncClosureR<TReturn> Create<T0, T1, T2, T3, TResult>(Func<T0, T1, T2, T3, TResult> func, T0 ctx0, T1 ctx1,
+            T2 ctx2, T3 ctx3)
+        {
+            return new FuncClosureR<TReturn>()
+            {
+                _closure = FuncClosure.Create(func, ctx0, ctx1, ctx2, ctx3)
+            };
+        }
+        
+        public bool Equals(FuncClosureR<TReturn> other)
+        {
+            return _closure.Equals(other._closure);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is FuncClosureR<TReturn> other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return _closure.GetHashCode();
+        }
+    }
 }
 
 
