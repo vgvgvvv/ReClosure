@@ -100,5 +100,104 @@ namespace ReClosure
 		}
 		
 	}
+    
+    	public static partial class BindHelper
+	{
+		public static FuncClosureR<TResult> BindR<TResult>(this Func<TResult> func)
+		{
+			return FuncClosureR<TResult>.Create(func);
+		}
+		
+		public static FuncClosureR<TResult> BindR<T, TResult>(this Func<T, TResult> func, T ctx)
+		{
+			return FuncClosureR<TResult>.Create<T, TResult>(func, ctx);
+		}
+		
+		public static FuncClosureR<TResult> BindR<T0, T1, TResult>(this Func<T0, T1, TResult> func, T0 arg0, T1 arg1)
+		{
+			return FuncClosureR<TResult>.Create<T0, T1, TResult>(func, arg0, arg1);
+		}
+		
+		public static FuncClosureR<TResult> BindR<T0, T1, T2, TResult>(this Func<T0, T1, T2, TResult> func, T0 arg0, T1 arg1, T2 arg2)
+		{
+			return FuncClosureR<TResult>.Create<T0, T1, T2, TResult>(func, arg0, arg1, arg2);
+		}
+		
+		public static FuncClosureR<TResult> BindR<T0, T1, T2, T3, TResult>(this Func<T0, T1, T2, T3, TResult> func, T0 arg0, T1 arg1, T2 arg2, T3 arg3)
+		{
+			return FuncClosureR<TResult>.Create<T0, T1, T2, T3, TResult>(func, arg0, arg1, arg2, arg3);
+		}
+		
+		public static FuncClosureR<TInput0, TResult> BindR<TInput0, TResult>(this Func<TInput0, TResult> func)
+		{
+			return FuncClosureR<TInput0, TResult>.Create(func);
+		}
+		
+		public static FuncClosureR<TInput0, TResult> BindR<TInput0, T, TResult>(this Func<T, TInput0, TResult> func, T ctx)
+		{
+			return FuncClosureR<TInput0, TResult>.Create(func, ctx);
+		}
+		
+		public static FuncClosureR<TInput0, TResult> BindR<TInput0, T0, T1, TResult>(this Func<T0, T1, TInput0, TResult> func, T0 arg0, T1 arg1)
+		{
+			return FuncClosureR<TInput0, TResult>.Create(func, arg0, arg1);
+		}
+		
+		public static FuncClosureR<TInput0, TResult> BindR<TInput0, T0, T1, T2, TResult>(this Func<T0, T1, T2, TInput0, TResult> func, T0 arg0, T1 arg1, T2 arg2)
+		{
+			return FuncClosureR<TInput0, TResult>.Create(func, arg0, arg1, arg2);
+		}
+		
+		public static FuncClosureR<TInput0, TInput1, TResult> BindR<TInput0, TInput1, TResult>(this Func<TInput0, TInput1, TResult> func)
+		{
+			return FuncClosureR<TInput0, TInput1, TResult>.Create(func);
+		}
+		
+		public static FuncClosureR<TInput0, TInput1, TResult> BindR<TInput0, TInput1, T, TResult>(this Func<T, TInput0, TInput1, TResult> func, T ctx)
+		{
+			return FuncClosureR<TInput0, TInput1, TResult>.Create(func, ctx);
+		}
+		
+		public static FuncClosureR<TInput0, TInput1, TResult> BindR<TInput0, TInput1, T0, T1, TResult>(this Func<T0, T1, TInput0, TInput1, TResult> func, T0 arg0, T1 arg1)
+		{
+			return FuncClosureR<TInput0, TInput1, TResult>.Create(func, arg0, arg1);
+		}
+		
+		public static FuncClosureR<TInput0, TInput1, TInput2, TResult> BindR<TInput0, TInput1, TInput2, TResult>(this Func<TInput0, TInput1, TInput2, TResult> func)
+		{
+			return FuncClosureR<TInput0, TInput1, TInput2, TResult>.Create(func);
+		}
+		
+		public static FuncClosureR<TInput0, TInput1, TInput2, TResult> BindR<TInput0, TInput1, TInput2, T, TResult>(this Func<T, TInput0, TInput1, TInput2, TResult> func, T ctx)
+		{
+			return FuncClosureR<TInput0, TInput1, TInput2, TResult>.Create(func, ctx);
+		}
+		
+		public static FuncClosureR<TInput0, TInput1, TInput2, TInput3, TResult> BindR<TInput0, TInput1, TInput2, TInput3, TResult>(this Func<TInput0, TInput1, TInput2, TInput3, TResult> func)
+		{
+			return FuncClosureR<TInput0, TInput1, TInput2, TInput3, TResult>.Create(func);
+		}
+		
+		public static FuncClosureR<TResult> BindSelfR<TSelf, TResult>(this TSelf self, Func<TSelf, TResult> action)
+		{
+			return FuncClosureR<TResult>.Create(action, self);
+		}
+		
+		public static FuncClosureR<T0, TResult> BindSelfR<TSelf, T0, TResult>(this TSelf self, Func<TSelf, T0, TResult> action)
+		{
+			return FuncClosureR<T0, TResult>.Create(action, self);
+		}
+
+		public static FuncClosureR<T0, T1, TResult> BindSelfR<TSelf, T0, T1, TResult>(this TSelf self, Func<TSelf, T0, T1, TResult> action)
+		{
+			return FuncClosureR<T0, T1, TResult>.Create(action, self);
+		}
+		
+		public static FuncClosureR<T0, T1, T2, TResult> BindSelfR<TSelf, T0, T1, T2, TResult>(this TSelf self, Func<TSelf, T0, T1, T2, TResult> action)
+		{
+			return FuncClosureR<T0, T1, T2, TResult>.Create(action, self);
+		}
+		
+	}
 }
 
