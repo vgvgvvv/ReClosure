@@ -96,7 +96,7 @@ namespace ReClosure
             {
                 for (int i = 0, count = list.Count; i < count; ++i)
                 {
-                    if (!list[i].Equals(closure)) continue;
+                    if (!list[i].IsValid() || !list[i].Equals(closure)) continue;
                     list[i].Reset();
                     if (i <= _sparseIndex) _sparseIndex = i + 1;
                 }
@@ -233,7 +233,7 @@ namespace ReClosure
                 {
                     for (int i = 0, count = list.Count; i < count; ++i)
                     {
-                        if (list[i].IsValid() || !list[i].Equals(closure)) continue;
+                        if (!list[i].IsValid() || !list[i].Equals(closure)) continue;
                         list[i].Reset();
                         if (i <= _sparseIndex) _sparseIndex = i + 1;
                     }
@@ -766,7 +766,7 @@ namespace ReClosure
             {
                 for (int i = 0, count = list.Count; i < count; ++i)
                 {
-                    if (list[i].IsValid() || !list[i].Equals(closure)) continue;
+                    if (!list[i].IsValid() || !list[i].Equals(closure)) continue;
                     list[i].Reset();
                     if (i <= _sparseIndex) _sparseIndex = i + 1;
                 }

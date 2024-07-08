@@ -101,7 +101,7 @@ namespace ReClosure
 		
 	}
     
-    	public static partial class BindHelper
+    public static partial class BindHelper
 	{
 		public static FuncClosureR<TResult> BindR<TResult>(this Func<TResult> func)
 		{
