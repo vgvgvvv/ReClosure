@@ -48,10 +48,10 @@ namespace ReClosure
         [Conditional("DEBUG")]
         public static void Check(object d)
         {
-            if (((Delegate)d).Target == null)
-            {
-                throw new Exception("Invoke invalid closure");
-            }
+            // if (((Delegate)d).Target == null)
+            // {
+            //     throw new Exception("Invoke invalid closure");
+            // }
         }
 
         public bool Equals(Closure other)

@@ -96,9 +96,11 @@ namespace ReClosure
             {
                 for (int i = 0, count = list.Count; i < count; ++i)
                 {
-                    if (!list[i].IsValid() || !list[i].Equals(closure)) continue;
-                    list[i].Reset();
-                    if (i <= _sparseIndex) _sparseIndex = i + 1;
+                    if (list[i].IsValid() && list[i].Equals(closure))
+                    {
+                        list[i].Reset();
+                        if (i <= _sparseIndex) _sparseIndex = i + 1;
+                    }
                 }
             }
             else
@@ -233,9 +235,11 @@ namespace ReClosure
                 {
                     for (int i = 0, count = list.Count; i < count; ++i)
                     {
-                        if (!list[i].IsValid() || !list[i].Equals(closure)) continue;
-                        list[i].Reset();
-                        if (i <= _sparseIndex) _sparseIndex = i + 1;
+                        if (list[i].IsValid() && list[i].Equals(closure))
+                        {
+                            list[i].Reset();
+                            if (i <= _sparseIndex) _sparseIndex = i + 1;
+                        }
                     }
                 }
                 else
@@ -379,9 +383,11 @@ namespace ReClosure
             {
                 for (int i = 0, count = list.Count; i < count; ++i)
                 {
-                    if (list[i].IsValid() || !list[i].Equals(closure)) continue;
-                    list[i].Reset();
-                    if (i <= _sparseIndex) _sparseIndex = i + 1;
+                    if (list[i].IsValid() && list[i].Equals(closure))
+                    {
+                        list[i].Reset();
+                        if (i <= _sparseIndex) _sparseIndex = i + 1;
+                    }
                 }
             }
             else
@@ -766,9 +772,11 @@ namespace ReClosure
             {
                 for (int i = 0, count = list.Count; i < count; ++i)
                 {
-                    if (!list[i].IsValid() || !list[i].Equals(closure)) continue;
-                    list[i].Reset();
-                    if (i <= _sparseIndex) _sparseIndex = i + 1;
+                    if (list[i].IsValid() && list[i].Equals(closure))
+                    {
+                        list[i].Reset();
+                        if (i <= _sparseIndex) _sparseIndex = i + 1;
+                    }
                 }
             }
             else
